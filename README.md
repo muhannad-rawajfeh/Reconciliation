@@ -4,12 +4,13 @@
 
 #### Goals
 At the end of this lab you should have a great knowledge in:
-1. Working with IO/NIO Java API.
-1. Reading and Writing system files.
-1. Parsing CSV and JSON formats. 
-1. Apply OOP SOLID principles.
-1. Use Dependency Injection and applying Design Patterns (like Strategy and DAO patterns).
-1. Practice separation of software components packages by introducing multiple modules.
+1. Practice TDD
+1. Working with IO/NIO Java API
+1. Reading and Writing system files
+1. Parsing CSV and JSON formats 
+1. Apply OOP SOLID principles
+1. Use Dependency Injection and applying Design Patterns (like Strategy and DAO patterns)
+1. Practice separation of software components packages by introducing multiple modules
 
 ## Introduction
 In accounting, *reconciliation* is the process of ensuring that two sets of records (financial transactions) matches each other. Reconciliation is used to validate that different financial systems recorded the same financial transactions. 
@@ -110,7 +111,7 @@ The json file consists of an array of transactions with the following properties
  
 The comparision result should be written to 3 CSV files with the following details:
 
-###### Matching records file
+###### Matched transactions file
 This file shall contain all the matching records, with the following details
 
 1. **transaction id**
@@ -126,7 +127,7 @@ TR-47884222203,5000.000,JOD,2020-01-25
 TR-47884222206,500.00,USD,2020-02-10
 ```
 
-###### Mismatched records file
+###### Mismatching transactions file
 This file contains the records that has been found on both files, but one or more of the financial details (amount, currency and value date) did not match.
 
 1. **transaction id**
@@ -143,7 +144,7 @@ TR-47884222205,60.000,JOD,2020-02-02
 TR-47884222205,60.000,JOD,2020-02-03
 ```
 
-###### Missing records file 
+###### Missing transactions file 
 This file shows the records that were present in one file but not the other.
 
 1. **found in file**: if present in first file, the value should be `SOURCE`, otherwise `TARGET`
@@ -154,6 +155,7 @@ This file shows the records that were present in one file but not the other.
 
 example:
 ```csv
+found in file,transaction id,amount,currency code,value date
 SOURCE,TR-47884222204,1200.000,JOD,2020-01-31
 TARGET,TR-47884222217,12000.000,JOD,2020-02-14
 TARGET,TR-47884222245,420.00,USD,2020-01-12
