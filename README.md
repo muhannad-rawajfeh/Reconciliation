@@ -1,19 +1,19 @@
 # Reconciliation system
 
 #### Table of content
-- [Goals](#Goals)
-- [Introduction to the system](#Introduction-to-the-system)
-- [File formats](#File-formats)
-  - [CSV file format](#CSV-file-format)
-  - [JSON file format](#JSON-file-format)
-  - [Result file format](#Result-file-format)
-    - [Matching Transactions file](#Matching-Transactions-file)
-    - [Mismatching Transactions file](#Mismatching-Transactions-file)
-    - [Missing Transactions file](#Missing-Transactions-file)
-- [Requirements](#Requirements)
-  - [Transactions Comparison](#Transactions-Comparison)
-  - [Result](#Result)
-- [General considerations and tips](#General-considerations-and-tips)
+- [Goals](#goals)
+- [Introduction to the system](#introduction-to-the-system)
+- [File formats](#file-formats)
+  - [CSV file format](#csv-file-format)
+  - [JSON file format](#json-file-format)
+  - [Result file format](#result-file-format)
+    - [Matching Transactions file](#matching-transactions-file)
+    - [Mismatching Transactions file](#mismatching-transactions-file)
+    - [Missing Transactions file](#missing-transactions-file)
+- [Requirements](#requirements)
+  - [Transactions Comparison](#transactions-comparison)
+  - [Result](#result)
+- [General considerations and tips](#general-considerations-and-tips)
 
 
 
