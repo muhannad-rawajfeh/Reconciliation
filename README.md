@@ -142,6 +142,7 @@ TR-47884222206,500.00,USD,2020-02-10
 ###### Mismatching Transactions file
 This file contains the records that has been found on both files, but one or more of the financial details (amount, currency and value date) did not match.
 
+1. **found in file**: `SOURCE` for the source record, and `TARGET` for the target record
 1. **transaction id**
 1. **amount**: formatted with decimal places as per the currency specification (see `E` column in https://en.wikipedia.org/wiki/ISO_4217#Active_codes) 
 1. **currency code**: following ISO 4217 alphabetic code
@@ -150,10 +151,10 @@ This file contains the records that has been found on both files, but one or mor
 Each two mismatched records should be written below each other, see the below example:
 ```csv
 transaction id,amount,currecny code,value date
-TR-47884222202,20.000,JOD,2020-01-22
-TR-47884222202,30.000,JOD,2020-01-22
-TR-47884222205,60.000,JOD,2020-02-02
-TR-47884222205,60.000,JOD,2020-02-03
+SOURCE,TR-47884222202,20.000,JOD,2020-01-22
+TARGET,TR-47884222202,30.000,JOD,2020-01-22
+SOURCE,TR-47884222205,60.000,JOD,2020-02-02
+TARGET,TR-47884222205,60.000,JOD,2020-02-03
 ```
 
 ###### Missing Transactions file 
