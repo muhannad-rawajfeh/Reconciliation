@@ -150,7 +150,7 @@ This file contains the records that has been found on both files, but one or mor
 
 Each two mismatched records should be written below each other, see the below example:
 ```csv
-transaction id,amount,currecny code,value date
+found in file,transaction id,amount,currecny code,value date
 SOURCE,TR-47884222202,20.000,JOD,2020-01-22
 TARGET,TR-47884222202,30.000,JOD,2020-01-22
 SOURCE,TR-47884222205,60.000,JOD,2020-02-02
