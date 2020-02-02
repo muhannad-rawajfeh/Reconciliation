@@ -75,7 +75,7 @@ The json file consists of an array of transactions with the following properties
     "purpose": "donation"
   },
   {
-    "date": "03-02-2020",
+    "date": "03/02/2020",
     "reference": "TR-47884222205",
     "amount": "60.000",
     "currencyCode": "JOD",
