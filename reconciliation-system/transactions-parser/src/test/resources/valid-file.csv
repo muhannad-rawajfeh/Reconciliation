@@ -1,0 +1,3 @@
+trans unique id,trans description,amount,currecny,purpose,value date,trans type
+TR-47884222201,online transfer,140,USD,donation,2020-01-20,D
+TR-47884222202,atm withdrwal,20.0000,JOD,,2020-01-22,D
