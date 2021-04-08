@@ -35,32 +35,32 @@ public class FileValidator {
         validateDate(fields[5], lineNo);
     }
 
-    private void validateDate(String field, int lineNo) {
+    private void validateDate(String date, int lineNo) {
         try {
-            LocalDate.parse(field, dataFormat.dateFormat());
+            LocalDate.parse(date, dataFormat.dateFormat());
         } catch (DateTimeParseException e) {
             throw new TransactionsParserException("invalid date in line " + lineNo);
         }
     }
 
-    private void validateCurrency(String field, int lineNo) {
+    private void validateCurrency(String currency, int lineNo) {
         try {
-            Currency.getInstance(field);
-        } catch (Exception e) {
+            Currency.getInstance(currency);
+        } catch (IllegalArgumentException e) {
             throw new TransactionsParserException("invalid currency in line " + lineNo);
         }
     }
 
-    private void validateAmount(String field, int lineNo) {
+    private void validateAmount(String amount, int lineNo) {
         try {
-            new BigDecimal(field);
+            new BigDecimal(amount);
         } catch (NumberFormatException e) {
             throw new TransactionsParserException("invalid amount in line " + lineNo);
         }
     }
 
     private void validateId(String id, int lineNo) {
-        if (!id.matches(DataFormat.idPattern())) {
+        if (!id.matches(DataFormat.idRegex())) {
             throw new TransactionsParserException("invalid id in line " + lineNo);
         }
     }

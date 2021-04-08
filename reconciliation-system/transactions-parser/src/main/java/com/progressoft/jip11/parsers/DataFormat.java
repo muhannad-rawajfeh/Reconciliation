@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 
 public interface DataFormat {
 
-    static String idPattern() {
+    static String idRegex() {
         return "TR-\\d{11}";
     }
 
