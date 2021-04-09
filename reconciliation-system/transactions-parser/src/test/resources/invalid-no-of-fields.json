@@ -1,0 +1,51 @@
+[
+  {
+    "date": "20/01/2020",
+    "reference": "TR-47884222201",
+    "amount": "140.00",
+    "currencyCode": "USD",
+    "purpose": "donation"
+  },
+  {
+    "date": "03/02/2020",
+    "reference": "TR-47884222205",
+    "amount": "60.000",
+    "currencyCode": "JOD",
+    "purpose": ""
+  },
+  {
+    "date": "10/02/2020",
+    "reference": "TR-47884222206",
+    "amount": "500.00",
+    "currencyCode": "USD",
+    "purpose": "general"
+  },
+  {
+    "date": "22/01/2020",
+    "reference": "TR-47884222202",
+    "amount": "30.000",
+    "currencyCode": "JOD",
+    "purpose": "donation"
+  },
+  {
+    "date": "14/02/2020",
+    "reference": "TR-47884222217",
+    "amount": "12000.000",
+    "currencyCode": "JOD",
+    "purpose": "salary"
+  },
+  {
+    "date": "25/01/2020",
+    "reference": "TR-47884222203",
+    "amount": "5000.000",
+    "currencyCode": "JOD",
+    "purpose": "not specified"
+  },
+  {
+    "date": "12/01/2020",
+    "reference": "TR-47884222245",
+    "amount": "420.00",
+    "currencyCode": "USD",
+    "purpose": "loan"
+  }
+]

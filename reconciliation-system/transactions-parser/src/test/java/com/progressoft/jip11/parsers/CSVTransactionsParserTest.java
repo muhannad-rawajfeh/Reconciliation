@@ -3,16 +3,13 @@ package com.progressoft.jip11.parsers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,39 +24,11 @@ public class CSVTransactionsParserTest {
     }
 
     @Test
-    void givenNullPath_whenParse_thenFail() {
-        TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(null));
-
-        assertEquals("path is null", tpe.getMessage());
-    }
-
-    @Test
-    void givenNoneExistingPath_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "foo" + new Random().nextInt() + ".test");
-
-        TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
-
-        assertEquals("path does not exist", tpe.getMessage());
-    }
-
-    @Test
-    void givenDirectoryPath_whenParse_thenFail() throws IOException {
-        Path path = Files.createTempDirectory("temp");
-
-        TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
-
-        assertEquals("path is a directory", tpe.getMessage());
-    }
-
-    @Test
     void givenFileWithInvalidNoOfFieldsRecord_whenParse_thenFail() {
         Path path = Paths.get("src", "test", "resources", "invalid-no-of-fields.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
+                () -> transactionsParser.parse(new ValidPath(path)));
 
         assertEquals("invalid number of fields in line 7", tpe.getMessage());
     }
@@ -69,7 +38,7 @@ public class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "invalid-id.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
+                () -> transactionsParser.parse(new ValidPath(path)));
 
         assertEquals("invalid id in line 3", tpe.getMessage());
     }
@@ -79,7 +48,7 @@ public class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "invalid-amount.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
+                () -> transactionsParser.parse(new ValidPath(path)));
 
         assertEquals("invalid amount in line 5", tpe.getMessage());
     }
@@ -89,7 +58,7 @@ public class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "invalid-currency.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
+                () -> transactionsParser.parse(new ValidPath(path)));
 
         assertEquals("invalid currency in line 6", tpe.getMessage());
     }
@@ -99,7 +68,7 @@ public class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "invalid-date.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(path));
+                () -> transactionsParser.parse(new ValidPath(path)));
 
         assertEquals("invalid date in line 4", tpe.getMessage());
     }
@@ -108,7 +77,7 @@ public class CSVTransactionsParserTest {
     void givenValidFile_whenParse_thenReturnListOfTransactions() {
         Path path = Paths.get("src", "test", "resources", "valid-file.csv");
 
-        List<Transaction> result = (List<Transaction>) transactionsParser.parse(path);
+        List<Transaction> result = (List<Transaction>) transactionsParser.parse(new ValidPath(path));
 
         List<Transaction> expected = prepareCase();
 

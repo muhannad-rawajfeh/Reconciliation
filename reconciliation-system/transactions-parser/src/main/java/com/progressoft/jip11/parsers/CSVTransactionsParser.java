@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -13,15 +12,10 @@ import java.util.List;
 public class CSVTransactionsParser implements TransactionsParser {
 
     @Override
-    public Iterable<Transaction> parse(Path path) {
+    public Iterable<Transaction> parse(ValidPath validPath) {
         FileValidator validator = new FileValidator(new CSVFormat());
-        validator.validatePath(path);
-        return doParse(path, validator);
-    }
-
-    private List<Transaction> doParse(Path path, FileValidator validator) {
         List<Transaction> transactions = new ArrayList<>();
-        try (BufferedReader bufferedReader = Files.newBufferedReader(path)) {
+        try (BufferedReader bufferedReader = Files.newBufferedReader(validPath.getPath())) {
             skipHeader(bufferedReader);
             String line;
             int lineNo = 1;

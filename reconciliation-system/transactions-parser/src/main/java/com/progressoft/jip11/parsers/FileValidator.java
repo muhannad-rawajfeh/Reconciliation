@@ -1,8 +1,6 @@
 package com.progressoft.jip11.parsers;
 
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Currency;
@@ -13,18 +11,6 @@ public class FileValidator {
 
     public FileValidator(DataFormat dataFormat) {
         this.dataFormat = dataFormat;
-    }
-
-    public void validatePath(Path path) {
-        if (path == null) {
-            throw new TransactionsParserException("path is null");
-        }
-        if (Files.notExists(path)) {
-            throw new TransactionsParserException("path does not exist");
-        }
-        if (Files.isDirectory(path)) {
-            throw new TransactionsParserException("path is a directory");
-        }
     }
 
     public void validateFields(String[] fields, int lineNo) {
@@ -70,5 +56,4 @@ public class FileValidator {
             throw new TransactionsParserException("invalid number of fields in line " + lineNo);
         }
     }
-
 }
