@@ -1,0 +1,16 @@
+[
+  {
+    "date": "20/01/2020",
+    "reference": "TR-47884222201",
+    "amount": "140.00",
+    "currencyCode": "USD",
+    "purpose": "donation"
+  },
+  {
+    "date": "03/02/2020",
+    "reference": "TR-47884222205",
+    "amount": "60.000",
+    "currencyCode": "JOD",
+    "purpose": ""
+  }
+]

@@ -20,12 +20,19 @@ public class Transaction {
     }
 
     @Override
+    public String toString() {
+        return id + "," + amount + "," + currency + "," + date;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return Objects.equals(id, that.id) && Objects.equals(amount, that.amount)
-                && Objects.equals(currency, that.currency) && Objects.equals(date, that.date);
+        return Objects.equals(id, that.id)
+                && Objects.equals(amount, that.amount)
+                && Objects.equals(currency, that.currency)
+                && Objects.equals(date, that.date);
     }
 
     @Override
