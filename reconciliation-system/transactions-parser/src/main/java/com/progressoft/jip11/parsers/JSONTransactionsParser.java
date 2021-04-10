@@ -15,7 +15,7 @@ import java.util.List;
 public class JSONTransactionsParser implements TransactionsParser {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyy");
-    private static final ValidatorUtility validator = new ValidatorUtility();
+    private static final FieldsValidator validator = new FieldsValidator();
 
     @Override
     public Iterable<Transaction> parse(ValidPath validPath) {

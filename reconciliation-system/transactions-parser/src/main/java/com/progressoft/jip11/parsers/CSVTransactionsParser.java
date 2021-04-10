@@ -13,21 +13,24 @@ import java.util.List;
 public class CSVTransactionsParser implements TransactionsParser {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final ValidatorUtility validator = new ValidatorUtility();
+    private static final FieldsValidator validator = new FieldsValidator();
 
     @Override
     public Iterable<Transaction> parse(ValidPath validPath) {
-        List<Transaction> transactions = new ArrayList<>();
         try (BufferedReader bufferedReader = Files.newBufferedReader(validPath.getPath())) {
             skipHeader(bufferedReader);
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                transactions.add(mapLine(line));
-            }
-            return transactions;
+            return getTransactions(bufferedReader);
         } catch (IOException e) {
             throw new TransactionsParserException(e.getMessage(), e);
         }
+    }
+
+    private List<Transaction> getTransactions(BufferedReader bufferedReader) throws IOException {
+        List<Transaction> transactions = new ArrayList<>();
+        String line;
+        while ((line = bufferedReader.readLine()) != null)
+            transactions.add(mapLine(line));
+        return transactions;
     }
 
     private Transaction mapLine(String line) {

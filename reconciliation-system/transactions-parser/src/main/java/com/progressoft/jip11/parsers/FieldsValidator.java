@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Currency;
 
-public class ValidatorUtility {
+public class FieldsValidator {
 
     private static final int NO_OF_FIELDS = 7;
     private static final String ID_REGEX = "TR-\\d{11}";
@@ -40,9 +40,8 @@ public class ValidatorUtility {
     }
 
     public void validateId(String id) {
-        if (!id.matches(ID_REGEX)) {
+        if (!id.matches(ID_REGEX))
             throw new TransactionsParserException("invalid id/reference found: " + id);
-        }
     }
 
     public void checkMissingFields(JSONObject o) {
@@ -57,8 +56,7 @@ public class ValidatorUtility {
     }
 
     public void checkNoOfFields(String[] fields) {
-        if (fields.length != NO_OF_FIELDS) {
+        if (fields.length != NO_OF_FIELDS)
             throw new TransactionsParserException("invalid number of fields found: " + Arrays.toString(fields));
-        }
     }
 }
