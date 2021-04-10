@@ -74,7 +74,7 @@ public class JSONTransactionsParserTest {
     }
 
     @Test
-    void givenValidFile_whenParse_thenReturnListOfTransactions() {
+    void givenValidFile_whenParse_thenReturnIterableOfTransactionsCorrectly() {
         Path path = Paths.get("src", "test", "resources", "valid-file.json");
 
         List<Transaction> result = (List<Transaction>) transactionsParser.parse(new ValidPath(path));
