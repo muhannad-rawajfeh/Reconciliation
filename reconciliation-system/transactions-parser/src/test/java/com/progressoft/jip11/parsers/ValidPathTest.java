@@ -22,7 +22,7 @@ class ValidPathTest {
 
     @Test
     void givenNoneExistingPath_whenConstruct_thenFail() {
-        Path path = Paths.get("foo" + new Random().nextInt() + ".test");
+        Path path = Paths.get("foo" + new Random().nextInt());
 
         InvalidPathException ipe = assertThrows(InvalidPathException.class, () -> new ValidPath(path));
 

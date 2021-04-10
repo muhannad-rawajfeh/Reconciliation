@@ -18,7 +18,7 @@ public class JSONTransactionsParser implements TransactionsParser {
     private static final FieldsValidator validator = new FieldsValidator();
 
     @Override
-    public Iterable<Transaction> parse(ValidPath validPath) {
+    public List<Transaction> parse(ValidPath validPath) {
         List<Transaction> transactions = new ArrayList<>();
         try {
             String fileContent = new String(Files.readAllBytes(validPath.getPath()));

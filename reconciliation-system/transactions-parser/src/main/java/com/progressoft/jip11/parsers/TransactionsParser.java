@@ -1,6 +1,8 @@
 package com.progressoft.jip11.parsers;
 
+import java.util.List;
+
 public interface TransactionsParser {
 
-    Iterable<Transaction> parse(ValidPath validPath);
+    List<Transaction> parse(ValidPath validPath);
 }

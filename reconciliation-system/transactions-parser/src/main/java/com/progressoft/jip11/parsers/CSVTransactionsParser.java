@@ -16,7 +16,7 @@ public class CSVTransactionsParser implements TransactionsParser {
     private static final FieldsValidator validator = new FieldsValidator();
 
     @Override
-    public Iterable<Transaction> parse(ValidPath validPath) {
+    public List<Transaction> parse(ValidPath validPath) {
         try (BufferedReader bufferedReader = Files.newBufferedReader(validPath.getPath())) {
             skipHeader(bufferedReader);
             return getTransactions(bufferedReader);
