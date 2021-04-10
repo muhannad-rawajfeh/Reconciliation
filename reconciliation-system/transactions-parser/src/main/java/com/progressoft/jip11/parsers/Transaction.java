@@ -19,6 +19,22 @@ public class Transaction {
         date = builder.date;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
     @Override
     public String toString() {
         return id + "," + amount + "," + currency + "," + date;

@@ -35,6 +35,7 @@
 
     <modules>
         <module>transactions-parser</module>
+        <module>transactions-reconciliator</module>
     </modules>
 
 </project>
