@@ -33,9 +33,11 @@ public class FieldsValidator {
 
     public void validateAmount(String amount) {
         try {
-            new BigDecimal(amount);
+            BigDecimal val = new BigDecimal(amount);
+            if (val.compareTo(BigDecimal.ZERO) <= 0)
+                throw new TransactionsParserException("invalid amount value found: " + amount);
         } catch (NumberFormatException e) {
-            throw new TransactionsParserException("invalid amount found: " + amount);
+            throw new TransactionsParserException("invalid amount format found: " + amount);
         }
     }
 

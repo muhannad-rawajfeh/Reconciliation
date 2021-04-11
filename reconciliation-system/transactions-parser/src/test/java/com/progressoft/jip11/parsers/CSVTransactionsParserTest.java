@@ -25,7 +25,7 @@ class CSVTransactionsParserTest {
 
     @Test
     void givenFileWithAnInvalidNoOfFieldsRecord_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-no-of-fields.csv");
+        Path path = Paths.get("src", "test", "resources", "csv", "invalid-no-of-fields.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -35,7 +35,7 @@ class CSVTransactionsParserTest {
 
     @Test
     void givenFileWithAnInvalidIDRecord_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-id.csv");
+        Path path = Paths.get("src", "test", "resources", "csv", "invalid-id.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -45,17 +45,20 @@ class CSVTransactionsParserTest {
 
     @Test
     void givenFileWithAnInvalidAmountRecord_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-amount.csv");
-
+        Path path = Paths.get("src", "test", "resources", "csv", "invalid-amount-format.csv");
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
+        assertEquals("invalid amount format found: 1200.a00", tpe.getMessage());
 
-        assertEquals("invalid amount found: 1200.a00", tpe.getMessage());
+        Path path2 = Paths.get("src", "test", "resources", "csv/invalid-amount-value.csv");
+        TransactionsParserException tpe2 = assertThrows(TransactionsParserException.class,
+                () -> transactionsParser.parse(new ValidPath(path2)));
+        assertEquals("invalid amount value found: -60.00", tpe2.getMessage());
     }
 
     @Test
     void givenFileWithAnInvalidCurrencyRecord_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-currency.csv");
+        Path path = Paths.get("src", "test", "resources", "csv", "invalid-currency.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -65,7 +68,7 @@ class CSVTransactionsParserTest {
 
     @Test
     void givenFileWithAnInvalidDateRecord_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-date.csv");
+        Path path = Paths.get("src", "test", "resources", "csv", "invalid-date.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -75,16 +78,16 @@ class CSVTransactionsParserTest {
 
     @Test
     void givenValidFile_whenParse_thenReturnListOfTransactionsCorrectly() {
-        Path path = Paths.get("src", "test", "resources", "valid-file.csv");
+        Path path = Paths.get("src", "test", "resources", "csv", "valid-file.csv");
 
         List<Transaction> result = transactionsParser.parse(new ValidPath(path));
 
-        List<Transaction> expected = prepareCase();
+        List<Transaction> expected = prepareExpected();
 
         assertEquals(expected, result);
     }
 
-    private List<Transaction> prepareCase() {
+    private List<Transaction> prepareExpected() {
         return Arrays.asList(
                 new Transaction.Builder()
                         .setId("TR-47884222201")

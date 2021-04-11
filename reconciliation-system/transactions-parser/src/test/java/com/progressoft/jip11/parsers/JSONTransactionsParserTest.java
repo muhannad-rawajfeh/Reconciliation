@@ -25,7 +25,7 @@ class JSONTransactionsParserTest {
 
     @Test
     void givenFileWithAnObjectWithMissingMandatoryField_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "mandatory-field-missing.json");
+        Path path = Paths.get("src", "test", "resources", "json", "mandatory-field-missing.json");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -35,7 +35,7 @@ class JSONTransactionsParserTest {
 
     @Test
     void givenFileWithAnObjectWithInvalidReference_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-reference.json");
+        Path path = Paths.get("src", "test", "resources", "json", "invalid-reference.json");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -45,17 +45,20 @@ class JSONTransactionsParserTest {
 
     @Test
     void givenFileWithAnObjectWithInvalidAmount_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-amount.json");
-
+        Path path = Paths.get("src", "test", "resources", "json", "invalid-amount-format.json");
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
+        assertEquals("invalid amount format found: 140.p", tpe.getMessage());
 
-        assertEquals("invalid amount found: 140.p", tpe.getMessage());
+        Path path2 = Paths.get("src", "test", "resources", "json/invalid-amount-value.json");
+        TransactionsParserException tpe2 = assertThrows(TransactionsParserException.class,
+                () -> transactionsParser.parse(new ValidPath(path2)));
+        assertEquals("invalid amount value found: 0.00", tpe2.getMessage());
     }
 
     @Test
     void givenFileWithAnObjectWithInvalidCurrency_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-currency.json");
+        Path path = Paths.get("src", "test", "resources", "json", "invalid-currency.json");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -65,7 +68,7 @@ class JSONTransactionsParserTest {
 
     @Test
     void givenFileWithAnObjectWithInvalidDate_whenParse_thenFail() {
-        Path path = Paths.get("src", "test", "resources", "invalid-date.json");
+        Path path = Paths.get("src", "test", "resources", "json", "invalid-date.json");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
@@ -75,16 +78,16 @@ class JSONTransactionsParserTest {
 
     @Test
     void givenValidFile_whenParse_thenReturnListOfTransactionsCorrectly() {
-        Path path = Paths.get("src", "test", "resources", "valid-file.json");
+        Path path = Paths.get("src", "test", "resources", "json", "valid-file.json");
 
         List<Transaction> result = transactionsParser.parse(new ValidPath(path));
 
-        List<Transaction> expected = prepareCase();
+        List<Transaction> expected = prepareExpected();
 
         assertEquals(expected, result);
     }
 
-    private List<Transaction> prepareCase() {
+    private List<Transaction> prepareExpected() {
         return Arrays.asList(
                 new Transaction.Builder()
                         .setId("TR-47884222201")

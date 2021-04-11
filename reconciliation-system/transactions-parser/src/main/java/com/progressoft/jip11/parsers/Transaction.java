@@ -1,6 +1,7 @@
 package com.progressoft.jip11.parsers;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Currency;
 import java.util.Objects;
@@ -84,6 +85,7 @@ public class Transaction {
         }
 
         public Transaction build() {
+            amount = amount.setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
             return new Transaction(this);
         }
     }
