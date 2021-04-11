@@ -38,7 +38,7 @@ class TransactionsComparatorTest {
         List<Transaction> source = FindMismatchingCases.prepareSource();
         List<Transaction> target = FindMismatchingCases.prepareTarget();
 
-        List<SourcedTransaction> result = transactionsComparator.findMisMatching(source, target);
+        List<SourcedTransaction> result = transactionsComparator.findMismatching(source, target);
         List<SourcedTransaction> expected = FindMismatchingCases.prepareExpected();
         assertEquals(expected, result);
 
@@ -47,5 +47,15 @@ class TransactionsComparatorTest {
 
         List<Transaction> remainingInTarget = FindMismatchingCases.prepareRemainingInTarget();
         assertEquals(target, remainingInTarget);
+    }
+
+    @Test
+    void givenSourceAndTargetLists_whenWrapMissing_thenReturnListOfSourcedTransactions() {
+        List<Transaction> source = WrapMissingCases.prepareSource();
+        List<Transaction> target = WrapMissingCases.prepareTarget();
+
+        List<SourcedTransaction> result = transactionsComparator.wrapMissing(source, target);
+        List<SourcedTransaction> expected = WrapMissingCases.prepareExpected();
+        assertEquals(expected, result);
     }
 }

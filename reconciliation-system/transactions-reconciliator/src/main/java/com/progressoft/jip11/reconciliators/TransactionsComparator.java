@@ -26,7 +26,7 @@ public class TransactionsComparator {
         return result;
     }
 
-    public List<SourcedTransaction> findMisMatching(List<Transaction> source, List<Transaction> target) {
+    public List<SourcedTransaction> findMismatching(List<Transaction> source, List<Transaction> target) {
         List<SourcedTransaction> result = new ArrayList<>();
         Iterator<Transaction> sourceIterator = source.listIterator();
         while (sourceIterator.hasNext()) {
@@ -45,6 +45,20 @@ public class TransactionsComparator {
             }
         }
         return result;
+    }
+
+    public List<SourcedTransaction> wrapMissing(List<Transaction> source, List<Transaction> target) {
+        List<SourcedTransaction> result = new ArrayList<>();
+        wrapAndAdd(result, source, "SOURCE");
+        wrapAndAdd(result, target, "TARGET");
+        return result;
+    }
+
+    private void wrapAndAdd(List<SourcedTransaction> result, List<Transaction> transactions, String source) {
+        for (Transaction t : transactions) {
+            SourcedTransaction st = new SourcedTransaction(source, t);
+            result.add(st);
+        }
     }
 
     private boolean isMismatched(Transaction sourceTransaction, Transaction targetTransaction) {
