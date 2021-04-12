@@ -24,7 +24,7 @@ class JSONTransactionsParserTest {
     }
 
     @Test
-    void givenFileWithAnObjectWithMissingMandatoryField_whenParse_thenFail() {
+    void givenFileWithAnObjectWithMissingMandatoryField_whenParse_thenFail() { // TODO: add all cases
         Path path = Paths.get("src", "test", "resources", "json", "mandatory-field-missing.json");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,

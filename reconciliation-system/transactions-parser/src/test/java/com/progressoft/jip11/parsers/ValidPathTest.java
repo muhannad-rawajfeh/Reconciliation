@@ -15,7 +15,7 @@ class ValidPathTest {
 
     @Test
     void givenNullPath_whenConstruct_thenFail() {
-        InvalidPathException ipe = assertThrows(InvalidPathException.class, () -> new ValidPath(null));
+        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new ValidPath(null));
 
         assertEquals("path is null", ipe.getMessage());
     }
@@ -24,7 +24,7 @@ class ValidPathTest {
     void givenNoneExistingPath_whenConstruct_thenFail() {
         Path path = Paths.get("foo" + new Random().nextInt());
 
-        InvalidPathException ipe = assertThrows(InvalidPathException.class, () -> new ValidPath(path));
+        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new ValidPath(path));
 
         assertEquals("path does not exist", ipe.getMessage());
     }
@@ -33,7 +33,7 @@ class ValidPathTest {
     void givenDirectoryPath_whenConstruct_thenFail() throws IOException {
         Path path = Files.createTempDirectory("temp" + new Random().nextInt());
 
-        InvalidPathException ipe = assertThrows(InvalidPathException.class, () -> new ValidPath(path));
+        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new ValidPath(path));
 
         assertEquals("path is a directory", ipe.getMessage());
     }

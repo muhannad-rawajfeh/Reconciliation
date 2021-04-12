@@ -1,9 +1,7 @@
 package com.progressoft.jip11.apps;
 
-import com.progressoft.jip11.parsers.TransactionsParser;
-import com.progressoft.jip11.parsers.TransactionsParserFactory;
+import com.progressoft.jip11.parsers.*;
 import com.progressoft.jip11.reconciliators.CSVTransactionsImporter;
-import com.progressoft.jip11.reconciliators.TransactionsImporter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,24 +13,40 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(">> Enter source file location:");
-        Path sourcePath = Paths.get(scanner.next());
+        ValidPath sourcePath = createPathIfValid(Paths.get(scanner.next()));
+        if (sourcePath == null) return;
 
         System.out.println(">> Enter source file format:");
-        String sourceFormat = scanner.next();
+        TransactionsParser sourceParser = createParserIfValid(scanner.next());
+        if (sourceParser == null) return;
 
         System.out.println(">> Enter target file location:");
-        Path targetPath = Paths.get(scanner.next());
+        ValidPath targetPath = createPathIfValid(Paths.get(scanner.next()));
+        if (targetPath == null) return;
 
         System.out.println(">> Enter target file format:");
-        String targetFormat = scanner.next();
+        TransactionsParser targetParser = createParserIfValid(scanner.next());
+        if (targetParser == null) return;
 
-        TransactionsParserFactory parserFactory = new TransactionsParserFactory();
-        TransactionsParser sourceParser = parserFactory.createParser(sourceFormat);
-        TransactionsParser targetParser = parserFactory.createParser(targetFormat);
-
-        TransactionsImporter importer = new CSVTransactionsImporter();
-
-        ReconciliationApp app = new ReconciliationApp(sourceParser, targetParser, importer);
+        ReconciliationApp app = new ReconciliationApp(sourceParser, targetParser, new CSVTransactionsImporter());
         app.run(sourcePath, targetPath);
+    }
+
+    private static TransactionsParser createParserIfValid(String format) {
+        try {
+            return TransactionsParserFactory.createParser(format);
+        } catch (TransactionsParserFactoryException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    private static ValidPath createPathIfValid(Path path) {
+        try {
+            return new ValidPath(path);
+        } catch (MyInvalidPathException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
     }
 }

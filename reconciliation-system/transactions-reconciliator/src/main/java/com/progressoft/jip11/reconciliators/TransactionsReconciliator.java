@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TransactionsReconciliator {
-
+    // TODO: try fix duplication
     public List<Transaction> findMatching(List<Transaction> source, List<Transaction> target) {
         List<Transaction> result = new ArrayList<>();
         Iterator<Transaction> sourceIterator = source.listIterator();

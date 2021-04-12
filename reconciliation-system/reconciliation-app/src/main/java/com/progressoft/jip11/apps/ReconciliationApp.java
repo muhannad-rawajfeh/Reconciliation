@@ -23,10 +23,10 @@ public class ReconciliationApp {
         this.importer = importer;
     }
 
-    public void run(Path sourcePath, Path targetPath) {
+    public void run(ValidPath sourcePath, ValidPath targetPath) {
 
-        List<Transaction> sourceTransactions = sourceParser.parse(new ValidPath(sourcePath));
-        List<Transaction> targetTransactions = targetParser.parse(new ValidPath(targetPath));
+        List<Transaction> sourceTransactions = sourceParser.parse(sourcePath);
+        List<Transaction> targetTransactions = targetParser.parse(targetPath);
 
         TransactionsReconciliator reconciliator = new TransactionsReconciliator();
 
