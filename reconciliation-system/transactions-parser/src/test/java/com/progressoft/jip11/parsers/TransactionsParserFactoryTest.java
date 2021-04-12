@@ -25,13 +25,13 @@ class TransactionsParserFactoryTest {
     @Test
     void givenUnknownType_whenCreateParser_thenFail() {
         TransactionsParserFactoryException thrown = assertThrows(TransactionsParserFactoryException.class,
-                () -> factory.createParser("xml"));
+                () -> factory.createParser("something"));
 
         assertEquals("unknown format", thrown.getMessage());
     }
 
     @Test
-    void givenTransactionsParserType_whenCreateParser_thenCreateRequestedType() {
+    void givenValidFormat_whenCreateParser_thenCreateParserOfRequestedFormat() {
         TransactionsParser parser = factory.createParser("csv");
         assertTrue(parser instanceof CSVTransactionsParser);
 

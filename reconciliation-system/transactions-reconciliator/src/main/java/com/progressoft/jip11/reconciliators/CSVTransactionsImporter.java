@@ -32,16 +32,16 @@ public class CSVTransactionsImporter implements TransactionsImporter {
                 bufferedWriter.write(object.toString() + "\n");
             }
         } catch (IOException e) {
-            throw new CSVTransactionsImporterException(e.getMessage(), e);
+            throw new TransactionsImporterException(e.getMessage(), e);
         }
     }
 
     private void validateChannelAndList(Channel channel, List<?> transactions) {
         if (channel == null)
-            throw new CSVTransactionsImporterException("channel is null");
+            throw new TransactionsImporterException("channel is null");
         if (!(channel instanceof FilePathChannel))
-            throw new CSVTransactionsImporterException("invalid communication channel");
+            throw new TransactionsImporterException("invalid communication channel");
         if (transactions == null)
-            throw new CSVTransactionsImporterException("list is null");
+            throw new TransactionsImporterException("list is null");
     }
 }
