@@ -31,7 +31,7 @@ class ValidPathTest {
 
     @Test
     void givenDirectoryPath_whenConstruct_thenFail() throws IOException {
-        Path path = Files.createTempDirectory("temp");
+        Path path = Files.createTempDirectory("temp" + new Random().nextInt());
 
         InvalidPathException ipe = assertThrows(InvalidPathException.class, () -> new ValidPath(path));
 

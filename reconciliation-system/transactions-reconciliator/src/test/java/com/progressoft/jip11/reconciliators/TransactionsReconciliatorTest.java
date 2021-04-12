@@ -8,13 +8,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TransactionsComparatorTest {
+class TransactionsReconciliatorTest {
 
-    private TransactionsComparator transactionsComparator;
+    private TransactionsReconciliator transactionsReconciliator;
 
     @BeforeEach
     void setUp() {
-        transactionsComparator = new TransactionsComparator();
+        transactionsReconciliator = new TransactionsReconciliator();
     }
 
     @Test
@@ -22,7 +22,7 @@ class TransactionsComparatorTest {
         List<Transaction> source = FindMatchingCases.prepareSource();
         List<Transaction> target = FindMatchingCases.prepareTarget();
 
-        List<Transaction> result = transactionsComparator.findMatching(source, target);
+        List<Transaction> result = transactionsReconciliator.findMatching(source, target);
         List<Transaction> expected = FindMatchingCases.prepareExpected();
         assertEquals(expected, result);
 
@@ -38,7 +38,7 @@ class TransactionsComparatorTest {
         List<Transaction> source = FindMismatchingCases.prepareSource();
         List<Transaction> target = FindMismatchingCases.prepareTarget();
 
-        List<SourcedTransaction> result = transactionsComparator.findMismatching(source, target);
+        List<SourcedTransaction> result = transactionsReconciliator.findMismatching(source, target);
         List<SourcedTransaction> expected = FindMismatchingCases.prepareExpected();
         assertEquals(expected, result);
 
@@ -54,7 +54,7 @@ class TransactionsComparatorTest {
         List<Transaction> source = WrapMissingCases.prepareSource();
         List<Transaction> target = WrapMissingCases.prepareTarget();
 
-        List<SourcedTransaction> result = transactionsComparator.wrapMissing(source, target);
+        List<SourcedTransaction> result = transactionsReconciliator.wrapMissing(source, target);
         List<SourcedTransaction> expected = WrapMissingCases.prepareExpected();
         assertEquals(expected, result);
     }

@@ -8,5 +8,5 @@ public interface TransactionsImporter {
 
     void importMatchingTransactions(Channel channel, List<Transaction> transactions);
 
-    void importOtherTransactions(Channel channel, List<SourcedTransaction> transactions);
+    void importOtherTransactions(Channel channel, List<SourcedTransaction> sourcedTransactions);
 }

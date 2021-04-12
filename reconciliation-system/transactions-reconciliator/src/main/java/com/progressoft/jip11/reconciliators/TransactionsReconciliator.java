@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class TransactionsComparator {
+public class TransactionsReconciliator {
 
     public List<Transaction> findMatching(List<Transaction> source, List<Transaction> target) {
         List<Transaction> result = new ArrayList<>();
@@ -47,30 +47,14 @@ public class TransactionsComparator {
         return result;
     }
 
-    private <T> List<T> find(List<Transaction> source, List<Transaction> target) {
-        List<T> result = new ArrayList<>();
-        Iterator<Transaction> sourceIterator = source.listIterator();
-        while (sourceIterator.hasNext()) {
-            Transaction sourceTransaction = sourceIterator.next();
-            Iterator<Transaction> targetIterator = target.listIterator();
-            while (targetIterator.hasNext()) {
-                Transaction targetTransaction = targetIterator.next();
-                if (sourceTransaction.equals(targetTransaction)) {
-                    result.add((T) sourceTransaction);
-                    sourceIterator.remove();
-                    targetIterator.remove();
-                }
-            }
-        }
-        return result;
-    }
-
     public List<SourcedTransaction> wrapMissing(List<Transaction> source, List<Transaction> target) {
         List<SourcedTransaction> result = new ArrayList<>();
         wrapAndAdd(result, source, "SOURCE");
         wrapAndAdd(result, target, "TARGET");
         return result;
     }
+
+
 
     private void wrapAndAdd(List<SourcedTransaction> result, List<Transaction> transactions, String source) {
         for (Transaction t : transactions) {
