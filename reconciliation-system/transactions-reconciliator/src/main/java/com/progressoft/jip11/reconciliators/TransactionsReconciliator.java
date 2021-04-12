@@ -55,7 +55,6 @@ public class TransactionsReconciliator {
     }
 
 
-
     private void wrapAndAdd(List<SourcedTransaction> result, List<Transaction> transactions, String source) {
         for (Transaction t : transactions) {
             SourcedTransaction st = new SourcedTransaction(source, t);
