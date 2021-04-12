@@ -24,13 +24,26 @@ class JSONTransactionsParserTest {
     }
 
     @Test
-    void givenFileWithAnObjectWithMissingMandatoryField_whenParse_thenFail() { // TODO: add all cases
-        Path path = Paths.get("src", "test", "resources", "json", "mandatory-field-missing.json");
-
+    void givenFilesWithAnObjectWithMissingMandatoryField_whenParse_thenFail() {
+        Path path = Paths.get("src", "test", "resources", "json", "reference-missing.json");
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
                 () -> transactionsParser.parse(new ValidPath(path)));
-
         assertEquals("mandatory field missing: JSONObject[\"reference\"] not found.", tpe.getMessage());
+
+        Path path2 = Paths.get("src", "test", "resources", "json", "amount-missing.json");
+        TransactionsParserException tpe2 = assertThrows(TransactionsParserException.class,
+                () -> transactionsParser.parse(new ValidPath(path2)));
+        assertEquals("mandatory field missing: JSONObject[\"amount\"] not found.", tpe2.getMessage());
+
+        Path path3 = Paths.get("src", "test", "resources", "json", "currency-missing.json");
+        TransactionsParserException tpe3 = assertThrows(TransactionsParserException.class,
+                () -> transactionsParser.parse(new ValidPath(path3)));
+        assertEquals("mandatory field missing: JSONObject[\"currencyCode\"] not found.", tpe3.getMessage());
+
+        Path path4 = Paths.get("src", "test", "resources", "json", "date-missing.json");
+        TransactionsParserException tpe4 = assertThrows(TransactionsParserException.class,
+                () -> transactionsParser.parse(new ValidPath(path4)));
+        assertEquals("mandatory field missing: JSONObject[\"date\"] not found.", tpe4.getMessage());
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.*;
 import com.progressoft.jip11.reconciliators.CSVTransactionsImporter;
+import com.progressoft.jip11.reconciliators.Channel;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,9 @@ public class Client {
         if (targetParser == null) return;
 
         ReconciliationApp app = new ReconciliationApp(sourceParser, targetParser, new CSVTransactionsImporter());
-        app.run(sourcePath, targetPath);
+        Channel result = app.reconcile(sourcePath, targetPath);
+        System.out.println("Reconciliation finished.");
+        System.out.println("Result files are available in " + result);
     }
 
     private static TransactionsParser createParserIfValid(String format) {

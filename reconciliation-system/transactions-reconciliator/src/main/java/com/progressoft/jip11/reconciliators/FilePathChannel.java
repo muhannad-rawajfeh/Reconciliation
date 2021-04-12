@@ -16,6 +16,11 @@ public class FilePathChannel implements Channel {
         return validPath;
     }
 
+    @Override
+    public String toString() {
+        return validPath.getPath().toAbsolutePath().toString();
+    }
+
     private void validate(ValidPath validPath) {
         if (validPath == null)
             throw new NullPointerException("valid path object is null");

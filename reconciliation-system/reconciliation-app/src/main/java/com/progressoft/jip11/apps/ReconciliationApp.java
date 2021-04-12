@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
 
 public class ReconciliationApp {
 
@@ -23,47 +24,49 @@ public class ReconciliationApp {
         this.importer = importer;
     }
 
-    public void run(ValidPath sourcePath, ValidPath targetPath) {
-
+    public Channel reconcile(ValidPath sourcePath, ValidPath targetPath) {
         List<Transaction> sourceTransactions = sourceParser.parse(sourcePath);
         List<Transaction> targetTransactions = targetParser.parse(targetPath);
 
         TransactionsReconciliator reconciliator = new TransactionsReconciliator();
-
         List<Transaction> matchedTransactions = reconciliator.findMatching(sourceTransactions, targetTransactions);
         List<SourcedTransaction> mismatchedTransactions = reconciliator.findMismatching(sourceTransactions, targetTransactions);
         List<SourcedTransaction> missingTransactions = reconciliator.wrapMissing(sourceTransactions, targetTransactions);
 
-        Path dirPath;
-        try {
-            dirPath = Files.createDirectory(Paths.get(".", "reconciliation-results"));
-        } catch (IOException e) {
-            System.err.println("error occurred while creating directory for results: " + e.getMessage());
-            return;
-        }
-        String dirPathAsString = dirPath.toString();
+        ImportRequest importRequest = new ImportRequest(matchedTransactions, mismatchedTransactions, missingTransactions);
+        return importAndGetChannelToResult(importRequest);
+    }
 
-        Path matched;
-        Path mismatched;
-        Path missing;
-        try {
-            matched = Files.createFile(Paths.get(dirPathAsString, "matched.csv"));
-            mismatched = Files.createFile(Paths.get(dirPathAsString, "mismatched.csv"));
-            missing = Files.createFile(Paths.get(dirPathAsString, "missing.csv"));
-        } catch (IOException e) {
-            System.err.println("error occurred while creating result files: " + e.getMessage());
-            return;
-        }
+    private FilePathChannel importAndGetChannelToResult(ImportRequest importRequest) {
+        Path dirPath = createDirectory();
+        String dirPathAsString = dirPath.toString();
+        Path matched = createFile(dirPathAsString, "matched.csv");
+        Path mismatched = createFile(dirPathAsString, "mismatched.csv");
+        Path missing = createFile(dirPathAsString, "missing.csv");
 
         Channel channelToMatched = new FilePathChannel(new ValidPath(matched));
         Channel channelToMismatched = new FilePathChannel(new ValidPath(mismatched));
         Channel channelToMissing = new FilePathChannel(new ValidPath(missing));
 
-        importer.importMatchingTransactions(channelToMatched, matchedTransactions);
-        importer.importOtherTransactions(channelToMismatched, mismatchedTransactions);
-        importer.importOtherTransactions(channelToMissing, missingTransactions);
+        importer.importMatchingTransactions(channelToMatched, importRequest.getMatched());
+        importer.importOtherTransactions(channelToMismatched, importRequest.getMismatched());
+        importer.importOtherTransactions(channelToMissing, importRequest.getMissing());
+        return new FilePathChannel(new ValidPath(dirPath));
+    }
 
-        System.out.println("Reconciliation finished.");
-        System.out.println("Result files are available in " + dirPath.toAbsolutePath());
+    private Path createFile(String dirPathAsString, String name) {
+        try {
+            return Files.createFile(Paths.get(dirPathAsString, name));
+        } catch (IOException e) {
+            throw new ReconciliationAppException("error occurred while creating result files", e);
+        }
+    }
+
+    private Path createDirectory() {
+        try {
+            return Files.createDirectory(Paths.get("reconciliation-results" + new Random().nextInt()));
+        } catch (IOException e) {
+            throw new ReconciliationAppException("error occurred while creating results directory", e);
+        }
     }
 }
