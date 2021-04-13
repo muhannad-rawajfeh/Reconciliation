@@ -3,14 +3,10 @@ package com.progressoft.jip11.apps;
 import com.progressoft.jip11.parsers.Transaction;
 import com.progressoft.jip11.parsers.TransactionsParser;
 import com.progressoft.jip11.parsers.ValidPath;
-import com.progressoft.jip11.reconciliators.*;
+import com.progressoft.jip11.reconciliators.SourcedTransaction;
+import com.progressoft.jip11.reconciliators.TransactionsReconciliator;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Random;
 
 public class ReconciliationSystem {
 

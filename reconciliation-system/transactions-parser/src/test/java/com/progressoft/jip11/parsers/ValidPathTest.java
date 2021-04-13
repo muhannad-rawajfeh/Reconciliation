@@ -39,8 +39,8 @@ class ValidPathTest {
     }
 
     @Test
-    void givenValidFilePath_whenConstruct_thenSucceed() {
-        Path path = Paths.get("src", "test", "resources", "valid-file-path");
+    void givenValidFilePath_whenConstruct_thenSucceed() throws IOException {
+        Path path = Files.createTempFile("temp", "any");
 
         ValidPath validPath = new ValidPath(path);
 

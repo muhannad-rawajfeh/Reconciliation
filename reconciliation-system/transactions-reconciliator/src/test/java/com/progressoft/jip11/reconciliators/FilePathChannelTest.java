@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,7 +21,7 @@ class FilePathChannelTest {
 
     @Test
     void givenValidPathObject_whenConstruct_thenIsConstructedWithGivenValidPath() throws IOException {
-        Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
+        Path path = Files.createTempFile("temp", "any");
         ValidPath validPath = new ValidPath(path);
 
         FilePathChannel filePathChannel = new FilePathChannel(validPath);
