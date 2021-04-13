@@ -24,7 +24,7 @@ public class CSVTransactionsImporter implements TransactionsFileImporter {
     }
 
     private void doImport(ValidPath validPath, List<?> objects, String header) {
-        validateChannelAndList(validPath, objects);
+        validatePathAndList(validPath, objects);
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(validPath.getPath())) {
             bufferedWriter.write(header);
             for (Object object : objects) {
@@ -35,10 +35,10 @@ public class CSVTransactionsImporter implements TransactionsFileImporter {
         }
     }
 
-    private void validateChannelAndList(ValidPath validPath, List<?> transactions) {
+    private void validatePathAndList(ValidPath validPath, List<?> objects) {
         if (validPath == null)
             throw new TransactionsImporterException("path is null");
-        if (transactions == null)
+        if (objects == null)
             throw new TransactionsImporterException("list is null");
     }
 }
