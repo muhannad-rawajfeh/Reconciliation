@@ -4,6 +4,10 @@ import java.io.IOException;
 
 public class FileStrategyException extends RuntimeException {
 
+    public FileStrategyException(String message) {
+        super(message);
+    }
+
     public FileStrategyException(String message, IOException e) {
         super(message, e);
     }

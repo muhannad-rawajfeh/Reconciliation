@@ -13,6 +13,7 @@ public class FileStrategy implements ImportStrategy {
 
     @Override
     public void importTransactions(ImportRequest importRequest) {
+        validateRequest(importRequest);
         TransactionsFileImporter importer = new CSVTransactionsImporter();
 
         Path dirPath = createDirectory();
@@ -25,6 +26,11 @@ public class FileStrategy implements ImportStrategy {
         importer.importMatchingTransactions(matchedPath, importRequest.getMatched());
         importer.importOtherTransactions(mismatchedPath, importRequest.getMismatched());
         importer.importOtherTransactions(missingPath, importRequest.getMissing());
+    }
+
+    private void validateRequest(ImportRequest importRequest) {
+        if (importRequest == null)
+            throw new FileStrategyException("import request is null");
     }
 
     private Path createFile(String dirPathAsString, String name) {
