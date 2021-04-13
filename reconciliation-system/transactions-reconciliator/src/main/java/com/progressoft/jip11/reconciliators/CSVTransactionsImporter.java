@@ -8,24 +8,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-public class CSVTransactionsImporter implements TransactionsImporter {
+public class CSVTransactionsImporter implements TransactionsFileImporter {
 
     private static final String MATCHING_HEADER = "transaction id,amount,currency code,value date\n";
     private static final String OTHER_HEADER = "found in file," + MATCHING_HEADER;
 
     @Override
-    public void importMatchingTransactions(Channel channel, List<Transaction> transactions) {
-        doImport(channel, transactions, MATCHING_HEADER);
+    public void importMatchingTransactions(ValidPath validPath, List<Transaction> transactions) {
+        doImport(validPath, transactions, MATCHING_HEADER);
     }
 
     @Override
-    public void importOtherTransactions(Channel channel, List<SourcedTransaction> sourcedTransactions) {
-        doImport(channel, sourcedTransactions, OTHER_HEADER);
+    public void importOtherTransactions(ValidPath validPath, List<SourcedTransaction> sourcedTransactions) {
+        doImport(validPath, sourcedTransactions, OTHER_HEADER);
     }
 
-    private void doImport(Channel channel, List<?> objects, String header) {
-        validateChannelAndList(channel, objects);
-        ValidPath validPath = (ValidPath) channel.getCommunicationSource();
+    private void doImport(ValidPath validPath, List<?> objects, String header) {
+        validateChannelAndList(validPath, objects);
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(validPath.getPath())) {
             bufferedWriter.write(header);
             for (Object object : objects) {
@@ -36,11 +35,9 @@ public class CSVTransactionsImporter implements TransactionsImporter {
         }
     }
 
-    private void validateChannelAndList(Channel channel, List<?> transactions) {
-        if (channel == null)
-            throw new TransactionsImporterException("channel is null");
-        if (!(channel instanceof FilePathChannel))
-            throw new TransactionsImporterException("invalid communication channel");
+    private void validateChannelAndList(ValidPath validPath, List<?> transactions) {
+        if (validPath == null)
+            throw new TransactionsImporterException("path is null");
         if (transactions == null)
             throw new TransactionsImporterException("list is null");
     }

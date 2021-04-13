@@ -2,9 +2,7 @@ package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.ValidPath;
 import com.progressoft.jip11.reconciliators.CSVTransactionsImporter;
-import com.progressoft.jip11.reconciliators.Channel;
-import com.progressoft.jip11.reconciliators.FilePathChannel;
-import com.progressoft.jip11.reconciliators.TransactionsImporter;
+import com.progressoft.jip11.reconciliators.TransactionsFileImporter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,21 +13,18 @@ public class FileStrategy implements ImportStrategy {
 
     @Override
     public void importTransactions(ImportRequest importRequest) {
-        TransactionsImporter importer = new CSVTransactionsImporter();
+        TransactionsFileImporter importer = new CSVTransactionsImporter();
 
         Path dirPath = createDirectory();
         String dirPathAsString = dirPath.toString();
-        Path matched = createFile(dirPathAsString, "matched.csv");
-        Path mismatched = createFile(dirPathAsString, "mismatched.csv");
-        Path missing = createFile(dirPathAsString, "missing.csv");
 
-        Channel channelToMatched = new FilePathChannel(new ValidPath(matched));
-        Channel channelToMismatched = new FilePathChannel(new ValidPath(mismatched));
-        Channel channelToMissing = new FilePathChannel(new ValidPath(missing));
+        ValidPath matchedPath = new ValidPath(createFile(dirPathAsString, "matched.csv"));
+        ValidPath mismatchedPath = new ValidPath(createFile(dirPathAsString, "mismatched.csv"));
+        ValidPath missingPath = new ValidPath(createFile(dirPathAsString, "missing.csv"));
 
-        importer.importMatchingTransactions(channelToMatched, importRequest.getMatched());
-        importer.importOtherTransactions(channelToMismatched, importRequest.getMismatched());
-        importer.importOtherTransactions(channelToMissing, importRequest.getMissing());
+        importer.importMatchingTransactions(matchedPath, importRequest.getMatched());
+        importer.importOtherTransactions(mismatchedPath, importRequest.getMismatched());
+        importer.importOtherTransactions(missingPath, importRequest.getMissing());
     }
 
     private Path createFile(String dirPathAsString, String name) {

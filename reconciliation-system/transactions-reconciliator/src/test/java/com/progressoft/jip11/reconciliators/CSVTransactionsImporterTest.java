@@ -17,67 +17,47 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVTransactionsImporterTest {
 
-    private TransactionsImporter transactionsImporter;
+    private TransactionsFileImporter transactionsFileImporter;
 
     @BeforeEach
     void setUp() {
-        transactionsImporter = new CSVTransactionsImporter();
+        transactionsFileImporter = new CSVTransactionsImporter();
     }
 
     @Test
-    void givenNullChannel_whenImportMatching_thenFail() {
+    void givenNullPath_whenImportMatching_thenFail() {
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsImporter.importMatchingTransactions(null, new ArrayList<>()));
+                () -> transactionsFileImporter.importMatchingTransactions(null, new ArrayList<>()));
 
-        assertEquals("channel is null", thrown.getMessage());
+        assertEquals("path is null", thrown.getMessage());
     }
 
     @Test
-    void givenNotFilePathChannelInstance_whenImportMatching_thenFail() {
-        Channel channel = Object::new;
+    void givenValidPathAndNullList_whenImportMatching_thenFail() throws IOException {
+        Path path = Files.createTempFile("temp", "any");
+        ValidPath validPath = new ValidPath(path);
 
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsImporter.importMatchingTransactions(channel, new ArrayList<>()));
-
-        assertEquals("invalid communication channel", thrown.getMessage());
-    }
-
-    @Test
-    void givenValidChannelAndNullList_whenImportMatching_thenFail() throws IOException {
-        Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
-        Channel channel = new FilePathChannel(new ValidPath(path));
-
-        TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsImporter.importMatchingTransactions(channel, null));
+                () -> transactionsFileImporter.importMatchingTransactions(validPath, null));
 
         assertEquals("list is null", thrown.getMessage());
     }
 
     @Test
-    void givenNullChannel_whenImportOther_thenFail() {
+    void givenNullPath_whenImportOther_thenFail() {
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsImporter.importOtherTransactions(null, new ArrayList<>()));
+                () -> transactionsFileImporter.importOtherTransactions(null, new ArrayList<>()));
 
-        assertEquals("channel is null", thrown.getMessage());
+        assertEquals("path is null", thrown.getMessage());
     }
 
     @Test
-    void givenNotFilePathChannelInstance_whenImportOther_thenFail() {
-        Channel channel = Object::new;
-
-        TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsImporter.importOtherTransactions(channel, new ArrayList<>()));
-
-        assertEquals("invalid communication channel", thrown.getMessage());
-    }
-
-    @Test
-    void givenValidChannelAndNullList_whenImportOther_thenFail() throws IOException {
+    void givenValidPathAndNullList_whenImportOther_thenFail() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
-        Channel channel = new FilePathChannel(new ValidPath(path));
+        ValidPath validPath = new ValidPath(path);
 
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsImporter.importOtherTransactions(channel, null));
+                () -> transactionsFileImporter.importOtherTransactions(validPath, null));
 
         assertEquals("list is null", thrown.getMessage());
     }
@@ -85,10 +65,10 @@ class CSVTransactionsImporterTest {
     @Test
     void givenValidChannelAndList_whenImportMatchingTransactions_thenImportCorrectly() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
-        Channel channel = new FilePathChannel(new ValidPath(path));
+        ValidPath validPath = new ValidPath(path);
         List<Transaction> transactions = prepareTransactions();
 
-        transactionsImporter.importMatchingTransactions(channel, transactions);
+        transactionsFileImporter.importMatchingTransactions(validPath, transactions);
         List<String> result = Files.readAllLines(path);
 
         List<String> expected = new ArrayList<>();
@@ -102,10 +82,10 @@ class CSVTransactionsImporterTest {
     @Test
     void givenValidChannelAndList_whenImportOtherTransactions_thenImportCorrectly() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
-        Channel channel = new FilePathChannel(new ValidPath(path));
+        ValidPath validPath = new ValidPath(path);
         List<SourcedTransaction> sourcedTransactions = prepareSourcedTransactions();
 
-        transactionsImporter.importOtherTransactions(channel, sourcedTransactions);
+        transactionsFileImporter.importOtherTransactions(validPath, sourcedTransactions);
         List<String> result = Files.readAllLines(path);
 
         List<String> expected = new ArrayList<>();
