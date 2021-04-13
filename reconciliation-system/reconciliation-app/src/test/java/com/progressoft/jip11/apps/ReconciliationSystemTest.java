@@ -17,13 +17,13 @@ class ReconciliationSystemTest {
 
     private static final String resourcesPath = Paths.get("src", "test", "resources").toString();
 
+    private final TransactionsParser csvParser = new CSVTransactionsParser();
+    private final TransactionsParser jsonParser = new JSONTransactionsParser();
+    private final MockImportStrategy mockStrategy = new MockImportStrategy();
+    private final ReconciliationSystem reconciliationSystem = new ReconciliationSystem(csvParser, jsonParser, mockStrategy);
+
     @Test
     void givenSourceAndTargetPaths_whenReconcile_thenReconcileAndImportCorrectly() throws IOException {
-        TransactionsParser csvParser = new CSVTransactionsParser();
-        TransactionsParser jsonParser = new JSONTransactionsParser();
-        MockImportStrategy mockStrategy = new MockImportStrategy();
-        ReconciliationSystem reconciliationSystem = new ReconciliationSystem(csvParser, jsonParser, mockStrategy);
-
         ValidPath sourcePath = new ValidPath(Paths.get(resourcesPath, "input-files", "transactions.csv"));
         ValidPath targetPath = new ValidPath(Paths.get(resourcesPath, "input-files", "transactions.json"));
 

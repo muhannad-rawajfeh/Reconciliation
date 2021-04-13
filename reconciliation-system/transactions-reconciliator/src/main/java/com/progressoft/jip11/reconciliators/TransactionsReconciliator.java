@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TransactionsReconciliator {
-    // TODO: try fix duplication
+    // TODO: come back to this
     public List<Transaction> findMatching(List<Transaction> source, List<Transaction> target) {
         List<Transaction> result = new ArrayList<>();
         Iterator<Transaction> sourceIterator = source.listIterator();
@@ -53,7 +53,6 @@ public class TransactionsReconciliator {
         wrapAndAdd(result, target, "TARGET");
         return result;
     }
-
 
     private void wrapAndAdd(List<SourcedTransaction> result, List<Transaction> transactions, String source) {
         for (Transaction t : transactions) {

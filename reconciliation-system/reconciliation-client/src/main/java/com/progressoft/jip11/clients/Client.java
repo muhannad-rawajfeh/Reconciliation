@@ -1,5 +1,7 @@
-package com.progressoft.jip11.apps;
+package com.progressoft.jip11.clients;
 
+import com.progressoft.jip11.apps.FileStrategy;
+import com.progressoft.jip11.apps.ReconciliationSystem;
 import com.progressoft.jip11.parsers.*;
 
 import java.nio.file.Path;
