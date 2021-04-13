@@ -1,8 +1,6 @@
 package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.*;
-import com.progressoft.jip11.reconciliators.CSVTransactionsImporter;
-import com.progressoft.jip11.reconciliators.Channel;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,10 +27,15 @@ public class Client {
         TransactionsParser targetParser = createParserIfValid(scanner.next());
         if (targetParser == null) return;
 
-        ReconciliationApp app = new ReconciliationApp(sourceParser, targetParser, new CSVTransactionsImporter());
-        Channel result = app.reconcile(sourcePath, targetPath);
+        ReconciliationSystem system = new ReconciliationSystem(sourceParser, targetParser, new FileStrategy());
+        try {
+            system.reconcile(sourcePath, targetPath);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
         System.out.println("Reconciliation finished.");
-        System.out.println("Result files are available in " + result);
+        System.out.println("Result files are available in " + Paths.get("reconciliation-results").toAbsolutePath());
     }
 
     private static TransactionsParser createParserIfValid(String format) {
