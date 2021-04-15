@@ -8,19 +8,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-// TODO this is exporter not importer
-public class CSVTransactionsImporter implements TransactionsFileImporter {
+public class CSVTransactionsExporter implements TransactionsFileExporter {
 
     private static final String MATCHING_HEADER = "transaction id,amount,currency code,value date\n";
     private static final String OTHER_HEADER = "found in file," + MATCHING_HEADER;
 
     @Override
-    public void importMatchingTransactions(ValidPath validPath, List<Transaction> transactions) {
+    public void exportMatchingTransactions(ValidPath validPath, List<Transaction> transactions) {
         doImport(validPath, transactions, MATCHING_HEADER);
     }
 
     @Override
-    public void importOtherTransactions(ValidPath validPath, List<SourcedTransaction> sourcedTransactions) {
+    public void exportOtherTransactions(ValidPath validPath, List<SourcedTransaction> sourcedTransactions) {
         doImport(validPath, sourcedTransactions, OTHER_HEADER);
     }
 

@@ -5,13 +5,13 @@ import com.progressoft.jip11.reconciliators.SourcedTransaction;
 
 import java.util.List;
 
-public class ImportRequest {
+public class ExportRequest {
 
     private final List<Transaction> matched;
     private final List<SourcedTransaction> mismatched;
     private final List<SourcedTransaction> missing;
 
-    public ImportRequest(List<Transaction> matched, List<SourcedTransaction> mismatched, List<SourcedTransaction> missing) {
+    public ExportRequest(List<Transaction> matched, List<SourcedTransaction> mismatched, List<SourcedTransaction> missing) {
         this.matched = matched;
         this.mismatched = mismatched;
         this.missing = missing;

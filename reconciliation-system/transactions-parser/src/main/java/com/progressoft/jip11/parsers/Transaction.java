@@ -13,8 +13,7 @@ public class Transaction {
     private final Currency currency;
     private final LocalDate date;
 
-    // TODO private to force the use of Builder
-    public Transaction(Builder builder) {
+    private Transaction(Builder builder) {
         id = builder.id;
         amount = builder.amount;
         currency = builder.currency;

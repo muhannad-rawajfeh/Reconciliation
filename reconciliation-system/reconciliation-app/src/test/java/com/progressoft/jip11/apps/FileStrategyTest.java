@@ -28,21 +28,21 @@ class FileStrategyTest {
     }
 
     @Test
-    void givenNullImportRequest_whenImportTransactions_thenFail() {
+    void givenNullExportRequest_whenExportTransactions_thenFail() {
         FileStrategyException fse = assertThrows(FileStrategyException.class,
-                () -> fileStrategy.importTransactions(null));
+                () -> fileStrategy.exportTransactions(null));
 
         assertEquals("import request is null", fse.getMessage());
     }
 
     @Test
-    void givenValidImportRequest_whenImportTransactions_thenImportToGeneratedDirectoryInRelativePathCorrectly() throws IOException {
+    void givenValidExportRequest_whenExportTransactions_thenExportToGeneratedDirectoryInRelativePathCorrectly() throws IOException {
         List<Transaction> matched = prepareMatched();
         List<SourcedTransaction> mismatched = prepareMismatched();
         List<SourcedTransaction> missing = prepareMissing();
-        ImportRequest importRequest = new ImportRequest(matched, mismatched, missing);
+        ExportRequest exportRequest = new ExportRequest(matched, mismatched, missing);
 
-        fileStrategy.importTransactions(importRequest);
+        fileStrategy.exportTransactions(exportRequest);
 
         Path dirPath = Paths.get("reconciliation-results");
         Path matchedPath = Paths.get(dirPath.toAbsolutePath().toString(), "matched.csv");

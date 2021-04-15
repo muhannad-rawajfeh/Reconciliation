@@ -1,20 +1,20 @@
 package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.ValidPath;
-import com.progressoft.jip11.reconciliators.CSVTransactionsImporter;
-import com.progressoft.jip11.reconciliators.TransactionsFileImporter;
+import com.progressoft.jip11.reconciliators.CSVTransactionsExporter;
+import com.progressoft.jip11.reconciliators.TransactionsFileExporter;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileStrategy implements ImportStrategy {
+public class FileStrategy implements ExportStrategy {
 
     @Override
-    public void importTransactions(ImportRequest importRequest) {
-        validateRequest(importRequest);
-        TransactionsFileImporter importer = new CSVTransactionsImporter();
+    public void exportTransactions(ExportRequest exportRequest) {
+        validateRequest(exportRequest);
+        TransactionsFileExporter importer = new CSVTransactionsExporter();
 
         Path dirPath = createDirectory();
         String dirPathAsString = dirPath.toString();
@@ -23,13 +23,13 @@ public class FileStrategy implements ImportStrategy {
         ValidPath mismatchedPath = new ValidPath(createFile(dirPathAsString, "mismatched.csv"));
         ValidPath missingPath = new ValidPath(createFile(dirPathAsString, "missing.csv"));
 
-        importer.importMatchingTransactions(matchedPath, importRequest.getMatched());
-        importer.importOtherTransactions(mismatchedPath, importRequest.getMismatched());
-        importer.importOtherTransactions(missingPath, importRequest.getMissing());
+        importer.exportMatchingTransactions(matchedPath, exportRequest.getMatched());
+        importer.exportOtherTransactions(mismatchedPath, exportRequest.getMismatched());
+        importer.exportOtherTransactions(missingPath, exportRequest.getMissing());
     }
 
-    private void validateRequest(ImportRequest importRequest) {
-        if (importRequest == null)
+    private void validateRequest(ExportRequest exportRequest) {
+        if (exportRequest == null)
             throw new FileStrategyException("import request is null");
     }
 

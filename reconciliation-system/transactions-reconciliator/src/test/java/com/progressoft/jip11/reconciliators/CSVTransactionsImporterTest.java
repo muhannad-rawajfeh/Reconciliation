@@ -17,58 +17,58 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVTransactionsImporterTest {
 
-    private TransactionsFileImporter transactionsFileImporter;
+    private TransactionsFileExporter transactionsFileExporter;
 
     @BeforeEach
     void setUp() {
-        transactionsFileImporter = new CSVTransactionsImporter();
+        transactionsFileExporter = new CSVTransactionsExporter();
     }
 
     @Test
-    void givenNullPath_whenImportMatching_thenFail() {
+    void givenNullPath_whenExportMatching_thenFail() {
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsFileImporter.importMatchingTransactions(null, new ArrayList<>()));
+                () -> transactionsFileExporter.exportMatchingTransactions(null, new ArrayList<>()));
 
         assertEquals("path is null", thrown.getMessage());
     }
 
     @Test
-    void givenValidPathAndNullList_whenImportMatching_thenFail() throws IOException {
+    void givenValidPathAndNullList_whenExportMatching_thenFail() throws IOException {
         Path path = Files.createTempFile("temp", "any");
         ValidPath validPath = new ValidPath(path);
 
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsFileImporter.importMatchingTransactions(validPath, null));
+                () -> transactionsFileExporter.exportMatchingTransactions(validPath, null));
 
         assertEquals("list is null", thrown.getMessage());
     }
 
     @Test
-    void givenNullPath_whenImportOther_thenFail() {
+    void givenNullPath_whenExportOther_thenFail() {
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsFileImporter.importOtherTransactions(null, new ArrayList<>()));
+                () -> transactionsFileExporter.exportOtherTransactions(null, new ArrayList<>()));
 
         assertEquals("path is null", thrown.getMessage());
     }
 
     @Test
-    void givenValidPathAndNullList_whenImportOther_thenFail() throws IOException {
+    void givenValidPathAndNullList_whenExportOther_thenFail() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
         ValidPath validPath = new ValidPath(path);
 
         TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
-                () -> transactionsFileImporter.importOtherTransactions(validPath, null));
+                () -> transactionsFileExporter.exportOtherTransactions(validPath, null));
 
         assertEquals("list is null", thrown.getMessage());
     }
 
     @Test
-    void givenValidChannelAndList_whenImportMatchingTransactions_thenImportCorrectly() throws IOException {
+    void givenValidPathAndList_whenExportMatchingTransactions_thenExportCorrectly() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
         ValidPath validPath = new ValidPath(path);
         List<Transaction> transactions = prepareTransactions();
 
-        transactionsFileImporter.importMatchingTransactions(validPath, transactions);
+        transactionsFileExporter.exportMatchingTransactions(validPath, transactions);
         List<String> result = Files.readAllLines(path);
 
         List<String> expected = new ArrayList<>();
@@ -80,12 +80,12 @@ class CSVTransactionsImporterTest {
     }
 
     @Test
-    void givenValidChannelAndList_whenImportOtherTransactions_thenImportCorrectly() throws IOException {
+    void givenValidPathAndList_whenExportOtherTransactions_thenExportCorrectly() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
         ValidPath validPath = new ValidPath(path);
         List<SourcedTransaction> sourcedTransactions = prepareSourcedTransactions();
 
-        transactionsFileImporter.importOtherTransactions(validPath, sourcedTransactions);
+        transactionsFileExporter.exportOtherTransactions(validPath, sourcedTransactions);
         List<String> result = Files.readAllLines(path);
 
         List<String> expected = new ArrayList<>();

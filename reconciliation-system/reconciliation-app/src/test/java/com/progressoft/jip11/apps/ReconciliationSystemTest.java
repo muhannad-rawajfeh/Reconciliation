@@ -19,11 +19,11 @@ class ReconciliationSystemTest {
 
     private final TransactionsParser csvParser = new CSVTransactionsParser();
     private final TransactionsParser jsonParser = new JSONTransactionsParser();
-    private final MockImportStrategy mockStrategy = new MockImportStrategy();
+    private final MockExportStrategy mockStrategy = new MockExportStrategy();
     private final ReconciliationSystem reconciliationSystem = new ReconciliationSystem(csvParser, jsonParser, mockStrategy);
 
     @Test
-    void givenSourceAndTargetPaths_whenReconcile_thenReconcileAndImportCorrectly() throws IOException {
+    void givenSourceAndTargetPaths_whenReconcile_thenReconcileAndExportCorrectly() throws IOException {
         ValidPath sourcePath = new ValidPath(Paths.get(resourcesPath, "input-files", "transactions.csv"));
         ValidPath targetPath = new ValidPath(Paths.get(resourcesPath, "input-files", "transactions.json"));
 
