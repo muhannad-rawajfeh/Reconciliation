@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+// TODO this is exporter not importer
 public class CSVTransactionsImporter implements TransactionsFileImporter {
 
     private static final String MATCHING_HEADER = "transaction id,amount,currency code,value date\n";
