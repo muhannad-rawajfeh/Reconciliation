@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 
-public class WrapMissingCases {
+class WrapMissingCases {
 
     public static List<SourcedTransaction> prepareExpected() {
         return new ArrayList<>(Arrays.asList(
