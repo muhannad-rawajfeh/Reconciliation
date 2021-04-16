@@ -15,7 +15,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class CSVTransactionsImporterTest {
+class CSVTransactionsExporterTest {
 
     private TransactionsFileExporter transactionsFileExporter;
 
@@ -26,7 +26,7 @@ class CSVTransactionsImporterTest {
 
     @Test
     void givenNullPath_whenExportMatching_thenFail() {
-        TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
+        TransactionsExporterException thrown = assertThrows(TransactionsExporterException.class,
                 () -> transactionsFileExporter.exportMatchingTransactions(null, new ArrayList<>()));
 
         assertEquals("path is null", thrown.getMessage());
@@ -37,7 +37,7 @@ class CSVTransactionsImporterTest {
         Path path = Files.createTempFile("temp", "any");
         ValidPath validPath = new ValidPath(path);
 
-        TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
+        TransactionsExporterException thrown = assertThrows(TransactionsExporterException.class,
                 () -> transactionsFileExporter.exportMatchingTransactions(validPath, null));
 
         assertEquals("list is null", thrown.getMessage());
@@ -45,7 +45,7 @@ class CSVTransactionsImporterTest {
 
     @Test
     void givenNullPath_whenExportOther_thenFail() {
-        TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
+        TransactionsExporterException thrown = assertThrows(TransactionsExporterException.class,
                 () -> transactionsFileExporter.exportOtherTransactions(null, new ArrayList<>()));
 
         assertEquals("path is null", thrown.getMessage());
@@ -56,7 +56,7 @@ class CSVTransactionsImporterTest {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
         ValidPath validPath = new ValidPath(path);
 
-        TransactionsImporterException thrown = assertThrows(TransactionsImporterException.class,
+        TransactionsExporterException thrown = assertThrows(TransactionsExporterException.class,
                 () -> transactionsFileExporter.exportOtherTransactions(validPath, null));
 
         assertEquals("list is null", thrown.getMessage());

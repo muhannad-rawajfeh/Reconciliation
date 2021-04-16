@@ -21,7 +21,7 @@ public class JSONTransactionsParser implements TransactionsParser {
     public List<Transaction> parse(ValidPath validPath) {
         List<Transaction> transactions = new ArrayList<>();
         try {
-            String fileContent = new String(Files.readAllBytes(validPath.getPath()));
+            String fileContent = Files.readString(validPath.getPath());
             JSONArray jsonArray = new JSONArray(fileContent);
             jsonArray.forEach(o -> mapAndAdd(transactions, (JSONObject) o));
             return transactions;
