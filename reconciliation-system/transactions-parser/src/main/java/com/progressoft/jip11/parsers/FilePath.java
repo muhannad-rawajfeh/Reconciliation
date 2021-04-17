@@ -3,11 +3,11 @@ package com.progressoft.jip11.parsers;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class ValidPath {
+public class FilePath {
 
     private final Path path;
 
-    public ValidPath(Path path) {
+    public FilePath(Path path) {
         validatePath(path);
         this.path = path;
     }

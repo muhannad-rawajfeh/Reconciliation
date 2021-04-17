@@ -36,6 +36,19 @@ class FileStrategyTest {
     }
 
     @Test
+    void givenValidExportRequestButResultsDirectoryAlreadyExists_whenExport_thenFail() throws IOException {
+        Files.createDirectory(Paths.get("reconciliation-results"));
+        ExportRequest request = new ExportRequest(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+        FileStrategyException fse = assertThrows(FileStrategyException.class,
+                () -> fileStrategy.exportTransactions(request));
+
+        assertEquals("error occurred while creating results directory", fse.getMessage());
+
+        Files.delete(Paths.get("reconciliation-results"));
+    }
+
+    @Test
     void givenValidExportRequest_whenExportTransactions_thenExportToGeneratedDirectoryInRelativePathCorrectly() throws IOException {
         List<Transaction> matched = prepareMatched();
         List<SourcedTransaction> mismatched = prepareMismatched();

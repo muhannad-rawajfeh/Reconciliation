@@ -1,8 +1,8 @@
 package com.progressoft.jip11.apps;
 
+import com.progressoft.jip11.parsers.FilePath;
 import com.progressoft.jip11.parsers.Transaction;
 import com.progressoft.jip11.parsers.TransactionsParser;
-import com.progressoft.jip11.parsers.ValidPath;
 import com.progressoft.jip11.reconciliators.SourcedTransaction;
 import com.progressoft.jip11.reconciliators.TransactionsReconciliator;
 
@@ -20,7 +20,7 @@ public class ReconciliationSystem {
         this.exportStrategy = exportStrategy;
     }
 
-    public void reconcile(ValidPath sourcePath, ValidPath targetPath) {
+    public void reconcile(FilePath sourcePath, FilePath targetPath) {
         List<Transaction> sourceTransactions = sourceParser.parse(sourcePath);
         List<Transaction> targetTransactions = targetParser.parse(targetPath);
 

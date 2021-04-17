@@ -14,7 +14,7 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(">> Enter source file location:");
-        ValidPath sourcePath = createPathIfValid(Paths.get(scanner.next()));
+        FilePath sourcePath = createPathIfValid(Paths.get(scanner.next()));
         if (sourcePath == null) return;
 
         System.out.println(">> Enter source file format:");
@@ -22,7 +22,7 @@ public class Client {
         if (sourceParser == null) return;
 
         System.out.println(">> Enter target file location:");
-        ValidPath targetPath = createPathIfValid(Paths.get(scanner.next()));
+        FilePath targetPath = createPathIfValid(Paths.get(scanner.next()));
         if (targetPath == null) return;
 
         System.out.println(">> Enter target file format:");
@@ -49,9 +49,9 @@ public class Client {
         }
     }
 
-    private static ValidPath createPathIfValid(Path path) {
+    private static FilePath createPathIfValid(Path path) {
         try {
-            return new ValidPath(path);
+            return new FilePath(path);
         } catch (MyInvalidPathException e) {
             System.err.println(e.getMessage());
             return null;

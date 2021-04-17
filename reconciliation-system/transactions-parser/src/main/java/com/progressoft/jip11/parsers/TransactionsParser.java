@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface TransactionsParser {
 
-    List<Transaction> parse(ValidPath validPath);
+    List<Transaction> parse(FilePath filePath);
 }

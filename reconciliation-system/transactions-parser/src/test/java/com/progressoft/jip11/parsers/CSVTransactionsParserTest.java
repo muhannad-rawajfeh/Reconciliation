@@ -28,7 +28,7 @@ class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "csv", "invalid-no-of-fields.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(new ValidPath(path)));
+                () -> transactionsParser.parse(new FilePath(path)));
 
         assertEquals("invalid number of fields found: [TR-47884222206, 500.0, USD, , D]", tpe.getMessage());
     }
@@ -38,7 +38,7 @@ class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "csv", "invalid-id.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(new ValidPath(path)));
+                () -> transactionsParser.parse(new FilePath(path)));
 
         assertEquals("invalid id/reference found: TR-4788422", tpe.getMessage());
     }
@@ -47,12 +47,12 @@ class CSVTransactionsParserTest {
     void givenFileWithAnInvalidAmountRecord_whenParse_thenFail() {
         Path path = Paths.get("src", "test", "resources", "csv", "invalid-amount-format.csv");
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(new ValidPath(path)));
+                () -> transactionsParser.parse(new FilePath(path)));
         assertEquals("invalid amount format found: 1200.a00", tpe.getMessage());
 
         Path path2 = Paths.get("src", "test", "resources", "csv/invalid-amount-value.csv");
         TransactionsParserException tpe2 = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(new ValidPath(path2)));
+                () -> transactionsParser.parse(new FilePath(path2)));
         assertEquals("invalid amount value found: -60.00", tpe2.getMessage());
     }
 
@@ -61,7 +61,7 @@ class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "csv", "invalid-currency.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(new ValidPath(path)));
+                () -> transactionsParser.parse(new FilePath(path)));
 
         assertEquals("invalid currency found: JODas", tpe.getMessage());
     }
@@ -71,7 +71,7 @@ class CSVTransactionsParserTest {
         Path path = Paths.get("src", "test", "resources", "csv", "invalid-date.csv");
 
         TransactionsParserException tpe = assertThrows(TransactionsParserException.class,
-                () -> transactionsParser.parse(new ValidPath(path)));
+                () -> transactionsParser.parse(new FilePath(path)));
 
         assertEquals("invalid date found: 25-01-2020", tpe.getMessage());
     }
@@ -80,7 +80,7 @@ class CSVTransactionsParserTest {
     void givenValidFile_whenParse_thenReturnListOfTransactionsCorrectly() {
         Path path = Paths.get("src", "test", "resources", "csv", "valid-file.csv");
 
-        List<Transaction> result = transactionsParser.parse(new ValidPath(path));
+        List<Transaction> result = transactionsParser.parse(new FilePath(path));
 
         List<Transaction> expected = prepareExpected();
 

@@ -18,10 +18,10 @@ public class JSONTransactionsParser implements TransactionsParser {
     private static final FieldsValidator validator = new FieldsValidator();
 
     @Override
-    public List<Transaction> parse(ValidPath validPath) {
+    public List<Transaction> parse(FilePath filePath) {
         List<Transaction> transactions = new ArrayList<>();
         try {
-            String fileContent = Files.readString(validPath.getPath());
+            String fileContent = Files.readString(filePath.getPath());
             JSONArray jsonArray = new JSONArray(fileContent);
             jsonArray.forEach(o -> mapAndAdd(transactions, (JSONObject) o));
             return transactions;

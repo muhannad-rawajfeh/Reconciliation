@@ -1,7 +1,7 @@
 package com.progressoft.jip11.reconciliators;
 
+import com.progressoft.jip11.parsers.FilePath;
 import com.progressoft.jip11.parsers.Transaction;
-import com.progressoft.jip11.parsers.ValidPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ class CSVFileWriterTest {
 
     @Test
     void givenNullPath_whenWrite_thenFail() {
-        TransactionsExporterException thrown = assertThrows(TransactionsExporterException.class,
+        CSVFileWriterException thrown = assertThrows(CSVFileWriterException.class,
                 () -> csvFileWriter.write(null, new ArrayList<>(), ""));
 
         assertEquals("path is null", thrown.getMessage());
@@ -35,10 +35,10 @@ class CSVFileWriterTest {
     @Test
     void givenValidPathAndNullList_whenWrite_thenFail() throws IOException {
         Path path = Files.createTempFile("temp", "any");
-        ValidPath validPath = new ValidPath(path);
+        FilePath filePath = new FilePath(path);
 
-        TransactionsExporterException thrown = assertThrows(TransactionsExporterException.class,
-                () -> csvFileWriter.write(validPath, null, ""));
+        CSVFileWriterException thrown = assertThrows(CSVFileWriterException.class,
+                () -> csvFileWriter.write(filePath, null, ""));
 
         assertEquals("list is null", thrown.getMessage());
     }
@@ -46,10 +46,10 @@ class CSVFileWriterTest {
     @Test
     void givenValidPathAndList_whenWrite_thenWriteCorrectly() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
-        ValidPath validPath = new ValidPath(path);
+        FilePath filePath = new FilePath(path);
         List<Transaction> transactions = prepareTransactions();
 
-        csvFileWriter.write(validPath, transactions, "transaction id,amount,currency code,value date\n");
+        csvFileWriter.write(filePath, transactions, "transaction id,amount,currency code,value date\n");
         List<String> result = Files.readAllLines(path);
 
         List<String> expected = new ArrayList<>();

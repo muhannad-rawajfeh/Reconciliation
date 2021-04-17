@@ -11,11 +11,11 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class ValidPathTest {
+class FilePathTest {
 
     @Test
     void givenNullPath_whenConstruct_thenFail() {
-        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new ValidPath(null));
+        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new FilePath(null));
 
         assertEquals("path is null", ipe.getMessage());
     }
@@ -24,7 +24,7 @@ class ValidPathTest {
     void givenNoneExistingPath_whenConstruct_thenFail() {
         Path path = Paths.get("foo" + new Random().nextInt());
 
-        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new ValidPath(path));
+        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new FilePath(path));
 
         assertEquals("path does not exist", ipe.getMessage());
     }
@@ -33,7 +33,7 @@ class ValidPathTest {
     void givenDirectoryPath_whenConstruct_thenFail() throws IOException {
         Path path = Files.createTempDirectory("temp" + new Random().nextInt());
 
-        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new ValidPath(path));
+        MyInvalidPathException ipe = assertThrows(MyInvalidPathException.class, () -> new FilePath(path));
 
         assertEquals("path is a directory", ipe.getMessage());
     }
@@ -42,8 +42,8 @@ class ValidPathTest {
     void givenValidFilePath_whenConstruct_thenSucceed() throws IOException {
         Path path = Files.createTempFile("temp", "any");
 
-        ValidPath validPath = new ValidPath(path);
+        FilePath filePath = new FilePath(path);
 
-        assertEquals(path, validPath.getPath());
+        assertEquals(path, filePath.getPath());
     }
 }

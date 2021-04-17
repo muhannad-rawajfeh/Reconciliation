@@ -1,9 +1,9 @@
 package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.CSVTransactionsParser;
+import com.progressoft.jip11.parsers.FilePath;
 import com.progressoft.jip11.parsers.JSONTransactionsParser;
 import com.progressoft.jip11.parsers.TransactionsParser;
-import com.progressoft.jip11.parsers.ValidPath;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,15 +17,15 @@ class ReconciliationSystemTest {
 
     private static final String resourcesPath = Paths.get("src", "test", "resources").toString();
 
-    private final TransactionsParser csvParser = new CSVTransactionsParser();
-    private final TransactionsParser jsonParser = new JSONTransactionsParser();
-    private final MockExportStrategy mockStrategy = new MockExportStrategy();
-    private final ReconciliationSystem reconciliationSystem = new ReconciliationSystem(csvParser, jsonParser, mockStrategy);
+    private static final TransactionsParser csvParser = new CSVTransactionsParser();
+    private static final TransactionsParser jsonParser = new JSONTransactionsParser();
+    private static final MockExportStrategy mockStrategy = new MockExportStrategy();
+    private static final ReconciliationSystem reconciliationSystem = new ReconciliationSystem(csvParser, jsonParser, mockStrategy);
 
     @Test
     void givenSourceAndTargetPaths_whenReconcile_thenReconcileAndExportCorrectly() throws IOException {
-        ValidPath sourcePath = new ValidPath(Paths.get(resourcesPath, "input-files", "transactions.csv"));
-        ValidPath targetPath = new ValidPath(Paths.get(resourcesPath, "input-files", "transactions.json"));
+        FilePath sourcePath = new FilePath(Paths.get(resourcesPath, "input-files", "transactions.csv"));
+        FilePath targetPath = new FilePath(Paths.get(resourcesPath, "input-files", "transactions.json"));
 
         reconciliationSystem.reconcile(sourcePath, targetPath);
 

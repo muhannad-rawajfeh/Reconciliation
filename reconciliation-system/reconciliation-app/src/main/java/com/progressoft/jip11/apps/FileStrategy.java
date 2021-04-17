@@ -1,6 +1,6 @@
 package com.progressoft.jip11.apps;
 
-import com.progressoft.jip11.parsers.ValidPath;
+import com.progressoft.jip11.parsers.FilePath;
 import com.progressoft.jip11.reconciliators.CSVFileWriter;
 
 import java.io.IOException;
@@ -21,9 +21,9 @@ public class FileStrategy implements ExportStrategy {
         Path dirPath = createDirectory();
         String dirPathAsString = dirPath.toString();
 
-        ValidPath matchedPath = new ValidPath(createFile(dirPathAsString, "matched.csv"));
-        ValidPath mismatchedPath = new ValidPath(createFile(dirPathAsString, "mismatched.csv"));
-        ValidPath missingPath = new ValidPath(createFile(dirPathAsString, "missing.csv"));
+        FilePath matchedPath = new FilePath(createFile(dirPathAsString, "matched.csv"));
+        FilePath mismatchedPath = new FilePath(createFile(dirPathAsString, "mismatched.csv"));
+        FilePath missingPath = new FilePath(createFile(dirPathAsString, "missing.csv"));
 
         csvFileWriter.write(matchedPath, exportRequest.getMatched(), MATCHING_HEADER);
         csvFileWriter.write(mismatchedPath, exportRequest.getMismatched(), OTHER_HEADER);
