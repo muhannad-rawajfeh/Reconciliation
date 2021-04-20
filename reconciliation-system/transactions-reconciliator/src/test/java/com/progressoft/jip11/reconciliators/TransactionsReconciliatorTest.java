@@ -18,7 +18,7 @@ class TransactionsReconciliatorTest {
     }
 
     @Test
-    void givenSourceAndTargetLists_whenFindMatched_thenReturnListOfMatchingTransactionsAndResultsAreRemovedFromGivenLists() {
+    void givenSourceAndTargetLists_whenFindMatched_thenReturnListOfMatchedTransactionsAndResultsAreRemovedFromGivenLists() {
         List<Transaction> source = FindMatchedCases.prepareSource();
         List<Transaction> target = FindMatchedCases.prepareTarget();
 
@@ -34,7 +34,7 @@ class TransactionsReconciliatorTest {
     }
 
     @Test
-    void givenSourceAndTargetLists_whenFindMismatched_thenReturnListOfSourcedMismatchingTransactionsAndResultsAreRemovedFromGivenLists() {
+    void givenSourceAndTargetLists_whenFindMismatched_thenReturnListOfSourcedMismatchedTransactionsAndResultsAreRemovedFromGivenLists() {
         List<Transaction> source = FindMismatchedCases.prepareSource();
         List<Transaction> target = FindMismatchedCases.prepareTarget();
 

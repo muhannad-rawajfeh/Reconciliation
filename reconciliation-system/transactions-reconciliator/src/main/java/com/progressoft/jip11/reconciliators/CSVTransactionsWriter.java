@@ -10,12 +10,12 @@ import java.util.List;
 
 public class CSVTransactionsWriter implements TransactionsWriter {
 
-    private static final String MATCHING_HEADER = "transaction id,amount,currency code,value date\n";
-    private static final String OTHER_HEADER = "found in file," + MATCHING_HEADER;
+    private static final String MATCHED_HEADER = "transaction id,amount,currency code,value date\n";
+    private static final String OTHER_HEADER = "found in file," + MATCHED_HEADER;
 
     @Override
     public void writeMatched(FilePath filePath, List<Transaction> transactions) {
-        doWrite(filePath, transactions, MATCHING_HEADER);
+        doWrite(filePath, transactions, MATCHED_HEADER);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class CSVTransactionsWriter implements TransactionsWriter {
         doWrite(filePath, sourcedTransactions, OTHER_HEADER);
     }
 
-    public <T> void doWrite(FilePath filePath, List<T> objects, String header) {
+    public void doWrite(FilePath filePath, List<?> objects, String header) {
         validatePathAndList(filePath, objects);
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(filePath.getPath())) {
             bufferedWriter.write(header);
