@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TransactionsWriter {
 
-    void writeMatching(FilePath filePath, List<Transaction> transactions);
+    void writeMatched(FilePath filePath, List<Transaction> transactions);
 
     void writeOther(FilePath filePath, List<SourcedTransaction> sourcedTransactions);
 }

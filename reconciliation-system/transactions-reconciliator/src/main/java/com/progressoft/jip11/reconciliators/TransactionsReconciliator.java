@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TransactionsReconciliator {
 
-    public List<Transaction> findMatching(List<Transaction> source, List<Transaction> target) {
+    public List<Transaction> findMatched(List<Transaction> source, List<Transaction> target) {
         List<Transaction> result = new ArrayList<>();
         Iterator<Transaction> sourceIterator = source.listIterator();
         while (sourceIterator.hasNext()) {
@@ -26,7 +26,7 @@ public class TransactionsReconciliator {
         return result;
     }
 
-    public List<SourcedTransaction> findMismatching(List<Transaction> source, List<Transaction> target) {
+    public List<SourcedTransaction> findMismatched(List<Transaction> source, List<Transaction> target) {
         List<SourcedTransaction> result = new ArrayList<>();
         Iterator<Transaction> sourceIterator = source.listIterator();
         while (sourceIterator.hasNext()) {

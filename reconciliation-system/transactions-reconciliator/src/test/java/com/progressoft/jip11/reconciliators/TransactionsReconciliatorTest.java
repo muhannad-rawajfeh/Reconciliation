@@ -18,34 +18,34 @@ class TransactionsReconciliatorTest {
     }
 
     @Test
-    void givenSourceAndTargetLists_whenFindMatching_thenReturnListOfMatchingTransactionsAndResultsAreRemovedFromGivenLists() {
-        List<Transaction> source = FindMatchingCases.prepareSource();
-        List<Transaction> target = FindMatchingCases.prepareTarget();
+    void givenSourceAndTargetLists_whenFindMatched_thenReturnListOfMatchingTransactionsAndResultsAreRemovedFromGivenLists() {
+        List<Transaction> source = FindMatchedCases.prepareSource();
+        List<Transaction> target = FindMatchedCases.prepareTarget();
 
-        List<Transaction> result = transactionsReconciliator.findMatching(source, target);
-        List<Transaction> expected = FindMatchingCases.prepareExpected();
+        List<Transaction> result = transactionsReconciliator.findMatched(source, target);
+        List<Transaction> expected = FindMatchedCases.prepareExpected();
         assertEquals(expected, result);
 
-        List<Transaction> remainingInSource = FindMatchingCases.prepareRemainingInSource();
+        List<Transaction> remainingInSource = FindMatchedCases.prepareRemainingInSource();
         assertEquals(source, remainingInSource);
 
-        List<Transaction> remainingInTarget = FindMatchingCases.prepareRemainingInTarget();
+        List<Transaction> remainingInTarget = FindMatchedCases.prepareRemainingInTarget();
         assertEquals(target, remainingInTarget);
     }
 
     @Test
-    void givenSourceAndTargetLists_whenFindMismatching_thenReturnListOfSourcedMismatchingTransactionsAndResultsAreRemovedFromGivenLists() {
-        List<Transaction> source = FindMismatchingCases.prepareSource();
-        List<Transaction> target = FindMismatchingCases.prepareTarget();
+    void givenSourceAndTargetLists_whenFindMismatched_thenReturnListOfSourcedMismatchingTransactionsAndResultsAreRemovedFromGivenLists() {
+        List<Transaction> source = FindMismatchedCases.prepareSource();
+        List<Transaction> target = FindMismatchedCases.prepareTarget();
 
-        List<SourcedTransaction> result = transactionsReconciliator.findMismatching(source, target);
-        List<SourcedTransaction> expected = FindMismatchingCases.prepareExpected();
+        List<SourcedTransaction> result = transactionsReconciliator.findMismatched(source, target);
+        List<SourcedTransaction> expected = FindMismatchedCases.prepareExpected();
         assertEquals(expected, result);
 
-        List<Transaction> remainingInSource = FindMismatchingCases.prepareRemainingInSource();
+        List<Transaction> remainingInSource = FindMismatchedCases.prepareRemainingInSource();
         assertEquals(source, remainingInSource);
 
-        List<Transaction> remainingInTarget = FindMismatchingCases.prepareRemainingInTarget();
+        List<Transaction> remainingInTarget = FindMismatchedCases.prepareRemainingInTarget();
         assertEquals(target, remainingInTarget);
     }
 

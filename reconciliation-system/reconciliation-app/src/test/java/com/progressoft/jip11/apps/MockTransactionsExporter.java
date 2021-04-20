@@ -2,7 +2,7 @@ package com.progressoft.jip11.apps;
 
 import java.util.ArrayList;
 
-class MockExportStrategy implements ExportStrategy {
+class MockTransactionsExporter implements TransactionsExporter {
 
     private final ArrayList<String> lists = new ArrayList<>();
 

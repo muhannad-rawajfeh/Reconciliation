@@ -1,6 +1,6 @@
 package com.progressoft.jip11.clients;
 
-import com.progressoft.jip11.apps.FileStrategy;
+import com.progressoft.jip11.apps.FileTransactionsExporter;
 import com.progressoft.jip11.apps.ReconciliationSystem;
 import com.progressoft.jip11.parsers.*;
 
@@ -29,7 +29,7 @@ public class Client {
         TransactionsParser targetParser = createParserIfValid(scanner.next());
         if (targetParser == null) return;
 
-        ReconciliationSystem system = new ReconciliationSystem(sourceParser, targetParser, new FileStrategy());
+        ReconciliationSystem system = new ReconciliationSystem(sourceParser, targetParser, new FileTransactionsExporter());
         try {
             system.reconcile(sourcePath, targetPath);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class Client {
     private static FilePath createPathIfValid(Path path) {
         try {
             return new FilePath(path);
-        } catch (MyInvalidPathException e) {
+        } catch (InvalidFilePathException e) {
             System.err.println(e.getMessage());
             return null;
         }

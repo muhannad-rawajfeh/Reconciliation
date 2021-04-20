@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 
-class FindMismatchingCases {
+class FindMismatchedCases {
 
     public static List<Transaction> prepareRemainingInTarget() {
         return new ArrayList<>(Arrays.asList(

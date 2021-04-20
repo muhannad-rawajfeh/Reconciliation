@@ -15,19 +15,19 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class CSVWriterTest {
+class CSVTransactionsWriterTest {
 
     private TransactionsWriter transactionsWriter;
 
     @BeforeEach
     void setUp() {
-        transactionsWriter = new CSVWriter();
+        transactionsWriter = new CSVTransactionsWriter();
     }
 
     @Test
-    void givenNullPath_whenWriteMatching_thenFail() {
+    void givenNullPath_whenWriteMatched_thenFail() {
         TransactionsWriterException thrown = assertThrows(TransactionsWriterException.class,
-                () -> transactionsWriter.writeMatching(null, new ArrayList<>()));
+                () -> transactionsWriter.writeMatched(null, new ArrayList<>()));
 
         assertEquals("path is null", thrown.getMessage());
     }
@@ -41,12 +41,12 @@ class CSVWriterTest {
     }
 
     @Test
-    void givenValidPathAndNullList_whenWriteMatching_thenFail() throws IOException {
+    void givenValidPathAndNullList_whenWriteMatched_thenFail() throws IOException {
         Path path = Files.createTempFile("temp", "any");
         FilePath filePath = new FilePath(path);
 
         TransactionsWriterException thrown = assertThrows(TransactionsWriterException.class,
-                () -> transactionsWriter.writeMatching(filePath, null));
+                () -> transactionsWriter.writeMatched(filePath, null));
 
         assertEquals("list is null", thrown.getMessage());
     }
@@ -63,12 +63,12 @@ class CSVWriterTest {
     }
 
     @Test
-    void givenValidPathAndList_whenWriteMatching_thenWriteCorrectly() throws IOException {
+    void givenValidPathAndList_whenWriteMatched_thenWriteCorrectly() throws IOException {
         Path path = Files.createTempFile("temp" + new Random().nextInt(), ".csv");
         FilePath filePath = new FilePath(path);
         List<Transaction> transactions = prepareTransactions();
 
-        transactionsWriter.writeMatching(filePath, transactions);
+        transactionsWriter.writeMatched(filePath, transactions);
         List<String> result = Files.readAllLines(path);
 
         List<String> expected = new ArrayList<>();

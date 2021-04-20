@@ -19,7 +19,7 @@ class ReconciliationSystemTest {
 
     private static final TransactionsParser csvParser = new CSVTransactionsParser();
     private static final TransactionsParser jsonParser = new JSONTransactionsParser();
-    private static final MockExportStrategy mockStrategy = new MockExportStrategy();
+    private static final MockTransactionsExporter mockStrategy = new MockTransactionsExporter();
     private static final ReconciliationSystem reconciliationSystem = new ReconciliationSystem(csvParser, jsonParser, mockStrategy);
 
     @Test
@@ -29,8 +29,8 @@ class ReconciliationSystemTest {
 
         reconciliationSystem.reconcile(sourcePath, targetPath);
 
-        List<String> expectedMatched = Files.readAllLines(Paths.get(resourcesPath, "result-files", "matching.csv"));
-        List<String> expectedMismatched = Files.readAllLines(Paths.get(resourcesPath, "result-files", "mismatching.csv"));
+        List<String> expectedMatched = Files.readAllLines(Paths.get(resourcesPath, "result-files", "matched.csv"));
+        List<String> expectedMismatched = Files.readAllLines(Paths.get(resourcesPath, "result-files", "mismatched.csv"));
         List<String> expectedMissing = Files.readAllLines(Paths.get(resourcesPath, "result-files", "missing.csv"));
 
         String s1 = addHeader(mockStrategy.getLists().get(0), "transaction id,amount,currency code,value date, ");

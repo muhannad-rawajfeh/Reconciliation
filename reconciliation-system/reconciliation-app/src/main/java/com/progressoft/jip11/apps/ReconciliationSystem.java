@@ -12,12 +12,12 @@ public class ReconciliationSystem {
 
     private final TransactionsParser sourceParser;
     private final TransactionsParser targetParser;
-    private final ExportStrategy exportStrategy;
+    private final TransactionsExporter transactionsExporter;
 
-    public ReconciliationSystem(TransactionsParser sourceParser, TransactionsParser targetParser, ExportStrategy exportStrategy) {
+    public ReconciliationSystem(TransactionsParser sourceParser, TransactionsParser targetParser, TransactionsExporter transactionsExporter) {
         this.sourceParser = sourceParser;
         this.targetParser = targetParser;
-        this.exportStrategy = exportStrategy;
+        this.transactionsExporter = transactionsExporter;
     }
 
     public void reconcile(FilePath sourcePath, FilePath targetPath) {
@@ -25,11 +25,11 @@ public class ReconciliationSystem {
         List<Transaction> targetTransactions = targetParser.parse(targetPath);
 
         TransactionsReconciliator reconciliator = new TransactionsReconciliator();
-        List<Transaction> matchedTransactions = reconciliator.findMatching(sourceTransactions, targetTransactions);
-        List<SourcedTransaction> mismatchedTransactions = reconciliator.findMismatching(sourceTransactions, targetTransactions);
+        List<Transaction> matchedTransactions = reconciliator.findMatched(sourceTransactions, targetTransactions);
+        List<SourcedTransaction> mismatchedTransactions = reconciliator.findMismatched(sourceTransactions, targetTransactions);
         List<SourcedTransaction> missingTransactions = reconciliator.wrapMissing(sourceTransactions, targetTransactions);
 
         ExportRequest exportRequest = new ExportRequest(matchedTransactions, mismatchedTransactions, missingTransactions);
-        exportStrategy.exportTransactions(exportRequest);
+        transactionsExporter.exportTransactions(exportRequest);
     }
 }

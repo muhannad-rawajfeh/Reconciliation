@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-public class CSVWriter implements TransactionsWriter {
+public class CSVTransactionsWriter implements TransactionsWriter {
 
     private static final String MATCHING_HEADER = "transaction id,amount,currency code,value date\n";
     private static final String OTHER_HEADER = "found in file," + MATCHING_HEADER;
 
     @Override
-    public void writeMatching(FilePath filePath, List<Transaction> transactions) {
+    public void writeMatched(FilePath filePath, List<Transaction> transactions) {
         doWrite(filePath, transactions, MATCHING_HEADER);
     }
 

@@ -18,10 +18,10 @@ public class FilePath {
 
     private void validatePath(Path path) {
         if (path == null)
-            throw new MyInvalidPathException("path is null");
+            throw new InvalidFilePathException("path is null");
         if (Files.notExists(path))
-            throw new MyInvalidPathException("path does not exist");
+            throw new InvalidFilePathException("path does not exist");
         if (Files.isDirectory(path))
-            throw new MyInvalidPathException("path is a directory");
+            throw new InvalidFilePathException("path is a directory");
     }
 }

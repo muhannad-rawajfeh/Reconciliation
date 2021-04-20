@@ -18,30 +18,30 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileStrategyTest {
+class FileTransactionsExporterTest {
 
-    private FileStrategy fileStrategy;
+    private FileTransactionsExporter fileTransactionsExporter;
 
     @BeforeEach
     void setUp() {
-        fileStrategy = new FileStrategy();
+        fileTransactionsExporter = new FileTransactionsExporter();
     }
 
     @Test
     void givenNullExportRequest_whenExportTransactions_thenFail() {
-        FileStrategyException fse = assertThrows(FileStrategyException.class,
-                () -> fileStrategy.exportTransactions(null));
+        TransactionsExporterException fse = assertThrows(TransactionsExporterException.class,
+                () -> fileTransactionsExporter.exportTransactions(null));
 
         assertEquals("import request is null", fse.getMessage());
     }
 
     @Test
-    void givenValidExportRequestButResultsDirectoryAlreadyExists_whenExport_thenFail() throws IOException {
+    void givenValidExportRequestButResultsDirectoryAlreadyExists_whenExportTransactions_thenFail() throws IOException {
         Files.createDirectory(Paths.get("reconciliation-results"));
         ExportRequest request = new ExportRequest(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
-        FileStrategyException fse = assertThrows(FileStrategyException.class,
-                () -> fileStrategy.exportTransactions(request));
+        TransactionsExporterException fse = assertThrows(TransactionsExporterException.class,
+                () -> fileTransactionsExporter.exportTransactions(request));
 
         assertEquals("error occurred while creating results directory", fse.getMessage());
 
@@ -55,7 +55,7 @@ class FileStrategyTest {
         List<SourcedTransaction> missing = prepareMissing();
         ExportRequest exportRequest = new ExportRequest(matched, mismatched, missing);
 
-        fileStrategy.exportTransactions(exportRequest);
+        fileTransactionsExporter.exportTransactions(exportRequest);
 
         Path dirPath = Paths.get("reconciliation-results");
         Path matchedPath = Paths.get(dirPath.toAbsolutePath().toString(), "matched.csv");
