@@ -1,7 +1,7 @@
 package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.FilePath;
-import com.progressoft.jip11.reconciliators.CSVFileWriter;
+import com.progressoft.jip11.reconciliators.CSVWriter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,13 +10,10 @@ import java.nio.file.Paths;
 
 public class FileStrategy implements ExportStrategy {
 
-    private static final String MATCHING_HEADER = "transaction id,amount,currency code,value date\n";
-    private static final String OTHER_HEADER = "found in file," + MATCHING_HEADER;
-
     @Override
     public void exportTransactions(ExportRequest exportRequest) {
         validateRequest(exportRequest);
-        CSVFileWriter csvFileWriter = new CSVFileWriter();
+        CSVWriter csvWriter = new CSVWriter();
 
         Path dirPath = createDirectory();
         String dirPathAsString = dirPath.toString();
@@ -25,9 +22,9 @@ public class FileStrategy implements ExportStrategy {
         FilePath mismatchedPath = new FilePath(createFile(dirPathAsString, "mismatched.csv"));
         FilePath missingPath = new FilePath(createFile(dirPathAsString, "missing.csv"));
 
-        csvFileWriter.write(matchedPath, exportRequest.getMatched(), MATCHING_HEADER);
-        csvFileWriter.write(mismatchedPath, exportRequest.getMismatched(), OTHER_HEADER);
-        csvFileWriter.write(missingPath, exportRequest.getMissing(), OTHER_HEADER);
+        csvWriter.writeMatching(matchedPath, exportRequest.getMatched());
+        csvWriter.writeOther(mismatchedPath, exportRequest.getMismatched());
+        csvWriter.writeOther(missingPath, exportRequest.getMissing());
     }
 
     private void validateRequest(ExportRequest exportRequest) {
