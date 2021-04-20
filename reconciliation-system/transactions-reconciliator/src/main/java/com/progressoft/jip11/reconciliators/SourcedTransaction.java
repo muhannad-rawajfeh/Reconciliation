@@ -14,6 +14,14 @@ public class SourcedTransaction {
         this.transaction = transaction;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
     @Override
     public String toString() {
         return source + "," + transaction;

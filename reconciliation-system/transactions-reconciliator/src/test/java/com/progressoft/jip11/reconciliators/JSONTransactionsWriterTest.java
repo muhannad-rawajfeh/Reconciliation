@@ -10,18 +10,21 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Currency;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class CSVTransactionsWriterTest {
+class JSONTransactionsWriterTest {
 
     private TransactionsWriter transactionsWriter;
 
     @BeforeEach
     void setUp() {
-        transactionsWriter = new CSVTransactionsWriter();
+        transactionsWriter = new JSONTransactionsWriter();
     }
 
     @Test
@@ -64,38 +67,80 @@ class CSVTransactionsWriterTest {
 
     @Test
     void givenValidPathAndList_whenWriteMatched_thenWriteCorrectly() throws IOException {
-        Path path = Files.createTempFile("temp", ".csv");
+        Path path = Files.createTempFile("temp", ".json");
         FilePath filePath = new FilePath(path);
         List<Transaction> transactions = prepareTransactions();
 
         transactionsWriter.writeMatched(filePath, transactions);
-        List<String> result = Files.readAllLines(path);
+        String result = Files.readString(path);
 
-        List<String> expected = new ArrayList<>();
-        expected.add("transaction id,amount,currency code,value date");
-        expected.add(transactions.get(0).toString());
-        expected.add(transactions.get(1).toString());
+        String expected = prepareWriteMatchedExpected();
 
         assertEquals(expected, result);
     }
 
     @Test
     void givenValidPathAndList_whenWriteOther_thenWriteCorrectly() throws IOException {
-        Path path = Files.createTempFile("temp", ".csv");
+        Path path = Files.createTempFile("temp", ".json");
         FilePath filePath = new FilePath(path);
         List<SourcedTransaction> sourcedTransactions = prepareSourcedTransactions();
 
         transactionsWriter.writeOther(filePath, sourcedTransactions);
-        List<String> result = Files.readAllLines(path);
+        String result = Files.readString(path);
 
-        List<String> expected = new ArrayList<>();
-        expected.add("found in file,transaction id,amount,currency code,value date");
-        expected.add(sourcedTransactions.get(0).toString());
-        expected.add(sourcedTransactions.get(1).toString());
-        expected.add(sourcedTransactions.get(2).toString());
-        expected.add(sourcedTransactions.get(3).toString());
+        String expected = prepareWriteOtherExpected();
 
         assertEquals(expected, result);
+    }
+
+    private String prepareWriteOtherExpected() {
+        return "[\n" +
+                "  {\n" +
+                "    \"date\": \"2020-06-20\",\n" +
+                "    \"amount\": \"500.00\",\n" +
+                "    \"currency\": \"AED\",\n" +
+                "    \"id\": \"TR-11111111111\",\n" +
+                "    \"found in file\": \"SOURCE\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"date\": \"2020-01-20\",\n" +
+                "    \"amount\": \"140.00\",\n" +
+                "    \"currency\": \"USD\",\n" +
+                "    \"id\": \"TR-11111111111\",\n" +
+                "    \"found in file\": \"TARGET\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"date\": \"2020-01-12\",\n" +
+                "    \"amount\": \"40.000\",\n" +
+                "    \"currency\": \"JOD\",\n" +
+                "    \"id\": \"TR-33333333333\",\n" +
+                "    \"found in file\": \"SOURCE\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"date\": \"2020-01-22\",\n" +
+                "    \"amount\": \"20.000\",\n" +
+                "    \"currency\": \"JOD\",\n" +
+                "    \"id\": \"TR-33333333333\",\n" +
+                "    \"found in file\": \"TARGET\"\n" +
+                "  }\n" +
+                "]";
+    }
+
+    private String prepareWriteMatchedExpected() {
+        return "[\n" +
+                "  {\n" +
+                "    \"date\": \"2020-01-20\",\n" +
+                "    \"amount\": \"140.00\",\n" +
+                "    \"currency\": \"USD\",\n" +
+                "    \"id\": \"TR-47884222201\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"date\": \"2020-01-22\",\n" +
+                "    \"amount\": \"20.000\",\n" +
+                "    \"currency\": \"JOD\",\n" +
+                "    \"id\": \"TR-47884222202\"\n" +
+                "  }\n" +
+                "]";
     }
 
     private List<SourcedTransaction> prepareSourcedTransactions() {
