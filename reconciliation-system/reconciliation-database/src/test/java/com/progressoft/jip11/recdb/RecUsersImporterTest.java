@@ -12,7 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class RecUsersImporterTest {
 
@@ -24,23 +25,30 @@ class RecUsersImporterTest {
         dataSource.setUser("");
         dataSource.setPassword("");
 
-        RecUsersImporter usersImporter = new RecUsersImporter(dataSource, new RecDbInitializer());
+        RecDbInitializer initializer = new RecDbInitializer();
+        initializer.initialize(dataSource);
+
+        RecUsersImporter usersImporter = new RecUsersImporter(dataSource);
         Path path = Paths.get("src", "test", "resources", "users.csv");
         usersImporter.importUsers(path);
 
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement query = connection.prepareStatement("select * from rec_users")) {
-                try (ResultSet resultSet = query.executeQuery()) {
-                    resultSet.next();
-                    assertEquals(1, resultSet.getInt(1));
-                    assertEquals("mohammad", resultSet.getString(2));
-                    assertEquals(hashPassword("ab1234"), resultSet.getString(3));
-                    resultSet.next();
-                    assertEquals(2, resultSet.getInt(1));
-                    assertEquals("ali", resultSet.getString(2));
-                    assertEquals(hashPassword("123456"), resultSet.getString(3));
-                    assertFalse(resultSet.next());
-                }
+            assertUsers(connection);
+        }
+    }
+
+    private void assertUsers(Connection connection) throws SQLException {
+        try (PreparedStatement query = connection.prepareStatement("select * from rec_users")) {
+            try (ResultSet resultSet = query.executeQuery()) {
+                resultSet.next();
+                assertEquals(1, resultSet.getInt(1));
+                assertEquals("mohammad", resultSet.getString(2));
+                assertEquals(hashPassword("ab1234"), resultSet.getString(3));
+                resultSet.next();
+                assertEquals(2, resultSet.getInt(1));
+                assertEquals("ali", resultSet.getString(2));
+                assertEquals(hashPassword("123456"), resultSet.getString(3));
+                assertFalse(resultSet.next());
             }
         }
     }

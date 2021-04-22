@@ -20,7 +20,7 @@ public class UsersReader {
     private HashMap<String, String> getUsers(BufferedReader bufferedReader) throws IOException {
         HashMap<String, String> accounts = new HashMap<>();
         String line;
-        while((line = bufferedReader.readLine()) != null) {
+        while ((line = bufferedReader.readLine()) != null) {
             String[] values = line.split(",");
             if (values.length != 2)
                 throw new IllegalStateException("invalid number of fields found");

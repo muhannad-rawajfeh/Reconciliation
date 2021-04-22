@@ -10,16 +10,14 @@ import java.util.Map;
 
 public class RecUsersImporter {
 
+    public static final String INSERT_USERS_SQL = "insert into rec_users (name, pass) values (?, ?)";
     private final DataSource dataSource;
-    private final RecDbInitializer dbInitializer;
 
-    public RecUsersImporter(DataSource dataSource, RecDbInitializer dbInitializer) {
+    public RecUsersImporter(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.dbInitializer = dbInitializer;
     }
 
     public void importUsers(Path path) {
-        dbInitializer.initialize(dataSource);
         UsersReader usersReader = new UsersReader();
         HashMap<String, String> users = usersReader.read(path);
         try (Connection connection = dataSource.getConnection()) {
@@ -30,7 +28,7 @@ public class RecUsersImporter {
     }
 
     private void insertUsers(HashMap<String, String> users, Connection connection) throws SQLException {
-        try (PreparedStatement insertion = connection.prepareStatement("insert into rec_users (name, pass) values (?, ?)")) {
+        try (PreparedStatement insertion = connection.prepareStatement(INSERT_USERS_SQL)) {
             for (Map.Entry<String, String> entry : users.entrySet()) {
                 insertion.setString(1, entry.getKey());
                 String hashedPassword = hashPassword(entry.getValue());
