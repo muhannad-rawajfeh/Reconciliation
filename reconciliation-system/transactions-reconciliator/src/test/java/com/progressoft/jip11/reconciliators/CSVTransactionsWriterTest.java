@@ -42,7 +42,7 @@ class CSVTransactionsWriterTest {
 
     @Test
     void givenValidPathAndNullList_whenWriteMatched_thenFail() throws IOException {
-        Path path = Files.createTempFile("temp", "any");
+        Path path = Files.createTempFile("temp", ".any");
         FilePath filePath = new FilePath(path);
 
         TransactionsWriterException thrown = assertThrows(TransactionsWriterException.class,
@@ -53,7 +53,7 @@ class CSVTransactionsWriterTest {
 
     @Test
     void givenValidPathAndNullList_whenWriteOther_thenFail() throws IOException {
-        Path path = Files.createTempFile("temp", "any");
+        Path path = Files.createTempFile("temp", ".any");
         FilePath filePath = new FilePath(path);
 
         TransactionsWriterException thrown = assertThrows(TransactionsWriterException.class,
