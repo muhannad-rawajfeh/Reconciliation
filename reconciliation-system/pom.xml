@@ -38,6 +38,7 @@
         <module>reconciliation-app</module>
         <module>reconciliation-client</module>
         <module>reconciliation-database</module>
+        <module>reconciliation-war</module>
     </modules>
 
 </project>
