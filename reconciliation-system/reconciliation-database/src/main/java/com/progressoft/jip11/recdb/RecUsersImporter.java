@@ -5,12 +5,11 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class RecUsersImporter {
 
-    public static final String INSERT_USERS_SQL = "insert into rec_users (name, pass) values (?, ?)";
+    private static final String INSERT_USERS_SQL = "insert into rec_users values (?, ?, ?)";
     private final DataSource dataSource;
 
     public RecUsersImporter(DataSource dataSource) {
@@ -19,7 +18,7 @@ public class RecUsersImporter {
 
     public void importUsers(Path path) {
         UsersReader usersReader = new UsersReader();
-        HashMap<String, String> users = usersReader.read(path);
+        List<User> users = usersReader.read(path);
         try (Connection connection = dataSource.getConnection()) {
             insertUsers(users, connection);
         } catch (SQLException e) {
@@ -27,12 +26,13 @@ public class RecUsersImporter {
         }
     }
 
-    private void insertUsers(HashMap<String, String> users, Connection connection) throws SQLException {
+    private void insertUsers(List<User> users, Connection connection) throws SQLException {
         try (PreparedStatement insertion = connection.prepareStatement(INSERT_USERS_SQL)) {
-            for (Map.Entry<String, String> entry : users.entrySet()) {
-                insertion.setString(1, entry.getKey());
-                String hashedPassword = hashPassword(entry.getValue());
-                insertion.setString(2, hashedPassword);
+            for (User u : users) {
+                insertion.setInt(1, u.getId());
+                insertion.setString(2, u.getName());
+                String hashedPassword = hashPassword(u.getPassword());
+                insertion.setString(3, hashedPassword);
                 insertion.addBatch();
             }
             insertion.executeBatch();

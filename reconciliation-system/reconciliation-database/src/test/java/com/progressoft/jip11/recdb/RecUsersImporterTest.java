@@ -42,12 +42,12 @@ class RecUsersImporterTest {
             try (ResultSet resultSet = query.executeQuery()) {
                 resultSet.next();
                 assertEquals(1, resultSet.getInt(1));
-                assertEquals("mohammad", resultSet.getString(2));
-                assertEquals(hashPassword("ab1234"), resultSet.getString(3));
-                resultSet.next();
-                assertEquals(2, resultSet.getInt(1));
                 assertEquals("ali", resultSet.getString(2));
                 assertEquals(hashPassword("123456"), resultSet.getString(3));
+                resultSet.next();
+                assertEquals(2, resultSet.getInt(1));
+                assertEquals("mohammad", resultSet.getString(2));
+                assertEquals(hashPassword("ab1234"), resultSet.getString(3));
                 assertFalse(resultSet.next());
             }
         }

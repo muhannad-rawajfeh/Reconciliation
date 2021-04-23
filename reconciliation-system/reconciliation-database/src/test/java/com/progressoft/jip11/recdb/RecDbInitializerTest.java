@@ -7,10 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,12 +38,21 @@ class RecDbInitializerTest {
         initializer.initialize(dataSource);
 
         try (Connection connection = dataSource.getConnection()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+            try (ResultSet tables = metaData.getTables(null, null, null, null)) {
+                String tableName = "";
+                while (tables.next()) {
+                    tableName = tables.getString(3);
+                    if (tableName.equalsIgnoreCase("rec_users")) break;
+                }
+                assertTrue(tableName.equalsIgnoreCase("rec_users"));
+            }
             insertIntoTable(connection);
-            checkStructureAndIdIncrement(connection);
+            assertEntries(connection);
         }
     }
 
-    private void checkStructureAndIdIncrement(Connection connection) throws SQLException {
+    private void assertEntries(Connection connection) throws SQLException {
         try (PreparedStatement query = connection.prepareStatement("select * from rec_users")) {
             try (ResultSet resultSet = query.executeQuery()) {
                 assertTrue(resultSet.next());
@@ -63,11 +69,13 @@ class RecDbInitializerTest {
     }
 
     private void insertIntoTable(Connection connection) throws SQLException {
-        try (PreparedStatement insertion = connection.prepareStatement("insert into rec_users (name, pass) values (?, ?), (?, ?)")) {
-            insertion.setString(1, "ali");
-            insertion.setString(2, "pass");
-            insertion.setString(3, "moh");
-            insertion.setString(4, "pass");
+        try (PreparedStatement insertion = connection.prepareStatement("insert into rec_users values (?, ?, ?), (?, ?, ?)")) {
+            insertion.setInt(1, 1);
+            insertion.setString(2, "ali");
+            insertion.setString(3, "pass");
+            insertion.setInt(4, 2);
+            insertion.setString(5, "moh");
+            insertion.setString(6, "pass");
             int affected = insertion.executeUpdate();
             assertEquals(2, affected);
         }

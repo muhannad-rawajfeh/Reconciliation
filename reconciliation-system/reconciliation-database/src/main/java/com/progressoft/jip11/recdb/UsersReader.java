@@ -4,11 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsersReader {
 
-    public HashMap<String, String> read(Path path) {
+    public List<User> read(Path path) {
         try (BufferedReader bufferedReader = Files.newBufferedReader(path)) {
             skipHeader(bufferedReader);
             return getUsers(bufferedReader);
@@ -17,16 +18,21 @@ public class UsersReader {
         }
     }
 
-    private HashMap<String, String> getUsers(BufferedReader bufferedReader) throws IOException {
-        HashMap<String, String> accounts = new HashMap<>();
+    private List<User> getUsers(BufferedReader bufferedReader) throws IOException {
+        List<User> users = new ArrayList<>();
         String line;
         while ((line = bufferedReader.readLine()) != null) {
             String[] values = line.split(",");
-            if (values.length != 2)
-                throw new IllegalStateException("invalid number of fields found");
-            accounts.put(values[0], values[1]);
+            validateNoOfFields(values);
+            User user = new User(Integer.parseInt(values[0]), values[1], values[2]);
+            users.add(user);
         }
-        return accounts;
+        return users;
+    }
+
+    private void validateNoOfFields(String[] values) {
+        if (values.length != 3)
+            throw new IllegalArgumentException("invalid number of fields found");
     }
 
     private void skipHeader(BufferedReader bufferedReader) throws IOException {
