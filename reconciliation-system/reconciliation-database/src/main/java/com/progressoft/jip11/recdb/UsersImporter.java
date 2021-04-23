@@ -7,12 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class RecUsersImporter {
+public class UsersImporter {
 
     private static final String INSERT_USERS_SQL = "insert into rec_users values (?, ?, ?)";
     private final DataSource dataSource;
 
-    public RecUsersImporter(DataSource dataSource) {
+    public UsersImporter(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

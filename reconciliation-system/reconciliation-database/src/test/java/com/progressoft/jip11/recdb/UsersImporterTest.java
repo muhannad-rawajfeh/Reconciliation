@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class RecUsersImporterTest {
+class UsersImporterTest {
 
     @Test
     void givenUsersFilePath_whenImportUsers_thenImportCorrectlyWithPasswordsHashed() throws IOException, SQLException {
@@ -25,10 +25,10 @@ class RecUsersImporterTest {
         dataSource.setUser("");
         dataSource.setPassword("");
 
-        RecDbInitializer initializer = new RecDbInitializer();
+        DatabaseInitializer initializer = new DatabaseInitializer();
         initializer.initialize(dataSource);
 
-        RecUsersImporter usersImporter = new RecUsersImporter(dataSource);
+        UsersImporter usersImporter = new UsersImporter(dataSource);
         Path path = Paths.get("src", "test", "resources", "users.csv");
         usersImporter.importUsers(path);
 

@@ -11,13 +11,13 @@ import java.sql.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RecDbInitializerTest {
+class DatabaseInitializerTest {
 
-    private RecDbInitializer initializer;
+    private DatabaseInitializer initializer;
 
     @BeforeEach
     void setUp() {
-        initializer = new RecDbInitializer();
+        initializer = new DatabaseInitializer();
     }
 
     @Test

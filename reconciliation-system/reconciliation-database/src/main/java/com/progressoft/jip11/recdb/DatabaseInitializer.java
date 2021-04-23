@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class RecDbInitializer {
+public class DatabaseInitializer {
 
     public void initialize(DataSource dataSource) {
         validate(dataSource);
