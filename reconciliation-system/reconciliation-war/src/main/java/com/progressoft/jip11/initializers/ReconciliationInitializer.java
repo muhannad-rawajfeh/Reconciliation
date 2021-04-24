@@ -31,9 +31,9 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
 
     private MysqlDataSource prepareDataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/reconciliation");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/induction");
         dataSource.setUser("admin");
-        dataSource.setPassword("pass");
+        dataSource.setPassword("password");
         return dataSource;
     }
 }

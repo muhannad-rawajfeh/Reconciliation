@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DatabaseHandlerTest {
 
     @Test
-    void givenExistingUserNameAndValidPassword_whenIsValidLoginRequest_thenReturnTrue() throws IOException {
+    void givenUserNameAndPassword_whenIsValidLoginRequest_thenReturnIfIsValid() throws IOException {
         JdbcDataSource dataSource = new JdbcDataSource();
         Path rec_db = Files.createTempFile("rec_db", ".db");
         dataSource.setUrl("jdbc:h2:file:" + rec_db);
@@ -28,5 +28,7 @@ class DatabaseHandlerTest {
 
         DatabaseHandler databaseHandler = new DatabaseHandler(dataSource);
         assertTrue(databaseHandler.isValidLoginRequest("ali", "123456"));
+        assertFalse(databaseHandler.isValidLoginRequest("ali", "123"));
+        assertFalse(databaseHandler.isValidLoginRequest("a", "123456"));
     }
 }

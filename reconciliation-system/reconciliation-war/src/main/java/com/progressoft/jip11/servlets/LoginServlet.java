@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if (!databaseHandler.isValidLoginRequest(username, password)) {
-            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid username or password");
             return;
         }
         resp.setContentType("text/plain");

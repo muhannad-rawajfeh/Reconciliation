@@ -16,24 +16,30 @@ public class DatabaseHandler {
 
     public boolean isValidLoginRequest(String name, String password) {
         try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement query = connection.prepareStatement("select name, pass from rec_users")) {
-                try (ResultSet resultSet = query.executeQuery()) {
-                    boolean isNameFound = false;
-                    while (resultSet.next()) {
-                        String nameInResultSet = resultSet.getString(1);
-                        if (name.equals(nameInResultSet)) {
-                            isNameFound = true;
-                            break;
-                        }
-                    }
-                    if (!isNameFound) return false;
-                    String deHashed = deHashPassword(resultSet.getString(2));
-                    return password.equals(deHashed);
-                }
-            }
+            return isValid(name, password, connection);
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
+    }
+
+    private boolean isValid(String name, String password, Connection connection) throws SQLException {
+        try (PreparedStatement query = connection.prepareStatement("select name, pass from rec_users")) {
+            try (ResultSet resultSet = query.executeQuery()) {
+                if (!isNameFound(name, resultSet))
+                    return false;
+                String deHashed = deHashPassword(resultSet.getString(2));
+                return password.equals(deHashed);
+            }
+        }
+    }
+
+    private boolean isNameFound(String name, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            String nameInResultSet = resultSet.getString(1);
+            if (name.equals(nameInResultSet))
+                return true;
+        }
+        return false;
     }
 
     private String deHashPassword(String value) {
