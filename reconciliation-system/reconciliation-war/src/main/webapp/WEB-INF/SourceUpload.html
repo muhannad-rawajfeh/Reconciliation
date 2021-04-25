@@ -1,4 +1,4 @@
-<!ECOTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<form method="post" action="/target-upload">
+<h2>Prepare Your Source File</h2>
+
+<form action="/target-upload" enctype="multipart/form-data" method="post">
     <label for="source_name">
         Source Name:
     </label>
@@ -18,13 +20,17 @@
         File Type:
     </label>
     <br>
-    <select name="file_type">
+    <select id="file_type" name="file_type">
         <option value="csv">CSV</option>
         <option value="json">JSON</option>
     </select>
     <br>
     <br>
-    <input type="file" id="file" name="file">
+    <label for="file">
+        File:
+    </label>
+    <br>
+    <input id="file" name="file" type="file">
     <br>
     <br>
     <input type="submit" value="next">

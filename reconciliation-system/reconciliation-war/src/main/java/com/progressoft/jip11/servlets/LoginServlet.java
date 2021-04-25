@@ -24,6 +24,6 @@ public class LoginServlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid username or password");
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/SourceUpload.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/SourceUpload.html").forward(req, resp);
     }
 }
