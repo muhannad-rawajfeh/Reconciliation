@@ -18,15 +18,15 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) {
         MysqlDataSource dataSource = prepareDataSource();
 
-        DatabaseInitializer initializer = new DatabaseInitializer();
-        initializer.initialize(dataSource);
-
-        UsersImporter usersImporter = new UsersImporter(dataSource);
-        usersImporter.importUsers(Paths.get("src", "main", "resources", "rec-users.csv"));
+//        DatabaseInitializer initializer = new DatabaseInitializer();
+//        initializer.initialize(dataSource);
+//
+//        UsersImporter usersImporter = new UsersImporter(dataSource);
+//        usersImporter.importUsers(Paths.get("src", "main", "resources", "rec-users.csv"));
 
         LoginServlet loginServlet = new LoginServlet(new DatabaseHandler(dataSource));
         ServletRegistration.Dynamic loginServletRegistration = servletContext.addServlet("loginServlet", loginServlet);
-        loginServletRegistration.addMapping("/login");
+        loginServletRegistration.addMapping("/source-upload");
     }
 
     private MysqlDataSource prepareDataSource() {
