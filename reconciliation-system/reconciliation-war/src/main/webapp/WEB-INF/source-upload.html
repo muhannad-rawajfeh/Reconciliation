@@ -7,8 +7,9 @@
 <body>
 
 <h2>Prepare Your Source File</h2>
+<br>
 
-<form action="/target-upload" enctype="multipart/form-data" method="post">
+<form method="post" action="/target-upload" enctype="multipart/form-data">
     <label for="source_name">
         Source Name:
     </label>
@@ -16,21 +17,21 @@
     <input id="source_name" name="source_name" type="text">
     <br>
     <br>
-    <label for="file_type">
+    <label for="source_type">
         File Type:
     </label>
     <br>
-    <select id="file_type" name="file_type">
+    <select id="source_type" name="source_type">
         <option value="csv">CSV</option>
         <option value="json">JSON</option>
     </select>
     <br>
     <br>
-    <label for="file">
+    <label for="source_file">
         File:
     </label>
     <br>
-    <input id="file" name="file" type="file">
+    <input id="source_file" name="source_file" type="file">
     <br>
     <br>
     <input type="submit" value="next">

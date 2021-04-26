@@ -4,20 +4,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-public class SourceUploadServlet extends HttpServlet {
+public class TargetUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         HttpSession session = req.getSession();
-        session.setAttribute("sourceName", req.getParameter("source_name"));
-        session.setAttribute("sourceType", req.getParameter("source_type"));
-        session.setAttribute("sourceFile", req.getParameter("source_file"));
+        session.setAttribute("targetName", req.getParameter("target_name"));
+        session.setAttribute("targetType", req.getParameter("target_type"));
+        session.setAttribute("targetFile", req.getParameter("target_file"));
         uploadFile(req);
-        req.getRequestDispatcher("/WEB-INF/target-upload.html").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/summary.jsp").forward(req, resp);
     }
 
     private void uploadFile(HttpServletRequest req) throws IOException, ServletException {
-        Part part = req.getPart("source_file");
+        Part part = req.getPart("target_file");
         String fileName = part.getSubmittedFileName();
         for (Part p : req.getParts())
             p.write(fileName);

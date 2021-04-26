@@ -2,11 +2,17 @@ package com.progressoft.jip11.initializers;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import com.progressoft.jip11.recdb.DatabaseHandler;
+import com.progressoft.jip11.recdb.DatabaseInitializer;
+import com.progressoft.jip11.recdb.UsersImporter;
 import com.progressoft.jip11.servlets.LoginServlet;
+import com.progressoft.jip11.servlets.SourceUploadServlet;
+import com.progressoft.jip11.servlets.TargetUploadServlet;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
+import java.nio.file.Paths;
 import java.util.Set;
 
 public class ReconciliationInitializer implements ServletContainerInitializer {
@@ -15,21 +21,41 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) {
         MysqlDataSource dataSource = prepareDataSource();
 
-//        DatabaseInitializer initializer = new DatabaseInitializer();
-//        initializer.initialize(dataSource);
-//
-//        UsersImporter usersImporter = new UsersImporter(dataSource);
-//        String usersFilePath = servletContext.getInitParameter("users-path");
-//        usersImporter.importUsers(Paths.get(usersFilePath));
+        //initializeDatabase(servletContext, dataSource);
 
+        registerLoginServlet(servletContext, dataSource);
+        registerSourceUploadServlet(servletContext);
+        registerTargetUploadServlet(servletContext);
+    }
+
+    private void registerTargetUploadServlet(ServletContext servletContext) {
+        TargetUploadServlet targetUploadServlet = new TargetUploadServlet();
+        ServletRegistration.Dynamic targetUploadServletRegistration = servletContext.addServlet("targetUploadServlet", targetUploadServlet);
+        targetUploadServletRegistration.addMapping("/summary");
+        targetUploadServletRegistration.setMultipartConfig(new MultipartConfigElement("",
+                1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024));
+    }
+
+    private void registerSourceUploadServlet(ServletContext servletContext) {
+        SourceUploadServlet sourceUploadServlet = new SourceUploadServlet();
+        ServletRegistration.Dynamic sourceUploadServletRegistration = servletContext.addServlet("sourceUploadServlet", sourceUploadServlet);
+        sourceUploadServletRegistration.addMapping("/target-upload");
+        sourceUploadServletRegistration.setMultipartConfig(new MultipartConfigElement("",
+                1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024));
+    }
+
+    private void registerLoginServlet(ServletContext servletContext, MysqlDataSource dataSource) {
         LoginServlet loginServlet = new LoginServlet(new DatabaseHandler(dataSource));
         ServletRegistration.Dynamic loginServletRegistration = servletContext.addServlet("loginServlet", loginServlet);
         loginServletRegistration.addMapping("/source-upload");
+    }
 
-//        SourceUploadServlet sourceUploadServlet = new SourceUploadServlet();
-//        ServletRegistration.Dynamic sourceUploadServletRegistration = servletContext.addServlet("sourceUploadServlet", sourceUploadServlet);
-//        sourceUploadServletRegistration.addMapping("/target-upload");
-
+    private void initializeDatabase(ServletContext servletContext, MysqlDataSource dataSource) {
+        DatabaseInitializer initializer = new DatabaseInitializer();
+        initializer.initialize(dataSource);
+        UsersImporter usersImporter = new UsersImporter(dataSource);
+        String usersFilePath = servletContext.getInitParameter("users-path");
+        usersImporter.importUsers(Paths.get(usersFilePath));
     }
 
     private MysqlDataSource prepareDataSource() {
