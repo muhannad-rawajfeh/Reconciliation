@@ -1,6 +1,11 @@
 package com.progressoft.jip11.parsers;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class TransactionsParserFactory {
+
+    public static final List<String> supportedTypes = Arrays.asList("CSV", "JSON");
 
     public static TransactionsParser createParser(String format) {
         if (format == null)

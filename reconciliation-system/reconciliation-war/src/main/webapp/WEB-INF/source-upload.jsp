@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +20,9 @@
     <label for="source_type">File Type:</label>
     <br>
     <select id="source_type" name="source_type">
-        <option value="csv">CSV</option>
-        <option value="json">JSON</option>
+        <c:forEach items="${types}" var="type">
+            <option value="${type}">${type}</option>
+        </c:forEach>
     </select>
     <br>
     <br>

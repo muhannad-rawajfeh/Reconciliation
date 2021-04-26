@@ -1,5 +1,6 @@
 package com.progressoft.jip11.servlets;
 
+import com.progressoft.jip11.parsers.TransactionsParserFactory;
 import com.progressoft.jip11.recdb.DatabaseHandler;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 public class LoginServlet extends HttpServlet {
 
@@ -18,16 +20,15 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         if (!databaseHandler.isValidLoginRequest(username, password)) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "invalid username or password");
             return;
         }
-        HttpSession session = req.getSession();
-        session.setAttribute("isAuthorized", "yes");
-        req.getRequestDispatcher("/WEB-INF/source-upload.html").forward(req, resp);
+        setAttributes(req);
+        req.getRequestDispatcher("/WEB-INF/source-upload.jsp").forward(req, resp);
     }
 
     @Override
@@ -38,6 +39,13 @@ public class LoginServlet extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_FORBIDDEN, "you should login first");
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/source-upload.html").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/source-upload.jsp").forward(req, resp);
+    }
+
+    private void setAttributes(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        List<String> types = TransactionsParserFactory.supportedTypes;
+        session.setAttribute("isAuthorized", "yes");
+        session.setAttribute("types", types);
     }
 }

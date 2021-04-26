@@ -24,6 +24,11 @@
             <artifactId>reconciliation-database</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.progressoft.jip11</groupId>
+            <artifactId>transactions-parser</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

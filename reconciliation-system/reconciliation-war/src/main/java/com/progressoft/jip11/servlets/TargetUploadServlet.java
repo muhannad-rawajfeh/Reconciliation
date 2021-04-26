@@ -7,7 +7,7 @@ import java.io.IOException;
 public class TargetUploadServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.setAttribute("targetName", req.getParameter("target_name"));
         session.setAttribute("targetType", req.getParameter("target_type"));
@@ -16,7 +16,7 @@ public class TargetUploadServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/summary.jsp").forward(req, resp);
     }
 
-    private void uploadFile(HttpServletRequest req) throws IOException, ServletException {
+    private void uploadFile(HttpServletRequest req) throws ServletException, IOException {
         Part part = req.getPart("target_file");
         String fileName = part.getSubmittedFileName();
         for (Part p : req.getParts())
