@@ -9,12 +9,23 @@
 <h2>Summary</h2>
 <br>
 
-${sourceName} ---- ${sourceType}
-<br>
-<br>
-${targetName} ---- ${targetType}
-<br>
-<br>
+<table style="width:25%">
+  <tr>
+    <th>File</th>
+    <th>Name</th>
+    <th>Type</th>
+  </tr>
+  <tr>
+    <td>Source</td>
+    <td>${sourceName}</td>
+    <td>${sourceType}</td>
+  </tr>
+  <tr>
+    <td>Target</td>
+    <td>${targetName}</td>
+    <td>${targetType}</td>
+  </tr>
+</table>
 <br>
 
 <form method="get" action="/results">
@@ -25,7 +36,7 @@ ${targetName} ---- ${targetType}
 
 <form method="get" action="/target-upload">
     <button type="submit">
-        Back
+        Previous
     </button>
 </form>
 

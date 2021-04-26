@@ -24,24 +24,24 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
         //initializeDatabase(servletContext, dataSource);
 
         registerLoginServlet(servletContext, dataSource);
-        registerSourceUploadServlet(servletContext);
-        registerTargetUploadServlet(servletContext);
+        MultipartConfigElement multipartConfigElement = new MultipartConfigElement("",
+                1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024);
+        registerSourceUploadServlet(servletContext, multipartConfigElement);
+        registerTargetUploadServlet(servletContext, multipartConfigElement);
     }
 
-    private void registerTargetUploadServlet(ServletContext servletContext) {
+    private void registerTargetUploadServlet(ServletContext servletContext, MultipartConfigElement multipartConfigElement) {
         TargetUploadServlet targetUploadServlet = new TargetUploadServlet();
         ServletRegistration.Dynamic targetUploadServletRegistration = servletContext.addServlet("targetUploadServlet", targetUploadServlet);
         targetUploadServletRegistration.addMapping("/summary");
-        targetUploadServletRegistration.setMultipartConfig(new MultipartConfigElement("",
-                1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024));
+        targetUploadServletRegistration.setMultipartConfig(multipartConfigElement);
     }
 
-    private void registerSourceUploadServlet(ServletContext servletContext) {
+    private void registerSourceUploadServlet(ServletContext servletContext, MultipartConfigElement multipartConfigElement) {
         SourceUploadServlet sourceUploadServlet = new SourceUploadServlet();
         ServletRegistration.Dynamic sourceUploadServletRegistration = servletContext.addServlet("sourceUploadServlet", sourceUploadServlet);
         sourceUploadServletRegistration.addMapping("/target-upload");
-        sourceUploadServletRegistration.setMultipartConfig(new MultipartConfigElement("",
-                1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024));
+        sourceUploadServletRegistration.setMultipartConfig(multipartConfigElement);
     }
 
     private void registerLoginServlet(ServletContext servletContext, MysqlDataSource dataSource) {

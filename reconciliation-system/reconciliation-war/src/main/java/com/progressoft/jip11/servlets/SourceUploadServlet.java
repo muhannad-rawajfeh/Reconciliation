@@ -16,6 +16,17 @@ public class SourceUploadServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/target-upload.html").forward(req, resp);
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        Object isAuthorized = session.getAttribute("isAuthorized");
+        if (isAuthorized == null) {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "you should login first");
+            return;
+        }
+        req.getRequestDispatcher("/WEB-INF/target-upload.html").forward(req, resp);
+    }
+
     private void uploadFile(HttpServletRequest req) throws IOException, ServletException {
         Part part = req.getPart("source_file");
         String fileName = part.getSubmittedFileName();
