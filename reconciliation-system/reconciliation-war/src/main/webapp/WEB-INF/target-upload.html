@@ -10,30 +10,20 @@
 <br>
 
 <form method="post" action="/summary" enctype="multipart/form-data">
-    <label for="target_name">
-        Target Name:
-    </label>
+    <label for="target_name">Target Name:</label>
     <br>
-    <input id="target_name" name="target_name" type="text"/>
+    <input id="target_name" name="target_name" type="text">
     <br>
     <br>
-    <label for="target_type">
-        File Type:
-    </label>
+    <label for="target_type">File Type:</label>
     <br>
     <select id="target_type" name="target_type">
-        <option value="csv">
-            CSV
-        </option>
-        <option value="json">
-            JSON
-        </option>
+        <option value="csv">CSV</option>
+        <option value="json">JSON</option>
     </select>
     <br>
     <br>
-    <label for="target_file">
-        File:
-    </label>
+    <label for="target_file">File:</label>
     <br>
     <input id="target_file" name="target_file" type="file">
     <br>
@@ -44,9 +34,7 @@
 </form>
 
 <form method="get" action="/source-upload">
-    <button type="submit">
-        Previous
-    </button>
+    <button type="submit">Previous</button>
 </form>
 
 </body>

@@ -29,21 +29,15 @@
 <br>
 
 <form method="get" action="/results">
-    <button type="submit">
-        Compare
-    </button>
+    <button type="submit">Compare</button>
 </form>
 
 <form method="get" action="/target-upload">
-    <button type="submit">
-        Previous
-    </button>
+    <button type="submit">Previous</button>
 </form>
 
 <form method="get" action="/source-upload">
-    <button type="submit">
-        Cancel
-    </button>
+    <button type="submit">Cancel</button>
 </form>
 
 </body>
