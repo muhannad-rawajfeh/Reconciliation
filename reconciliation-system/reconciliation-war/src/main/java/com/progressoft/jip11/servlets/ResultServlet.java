@@ -19,11 +19,7 @@ import java.util.List;
 
 public class ResultServlet extends HttpServlet {
 
-    private final TransactionsReconciliator transactionsReconciliator;
-
-    public ResultServlet(TransactionsReconciliator transactionsReconciliator) {
-        this.transactionsReconciliator = transactionsReconciliator;
-    }
+    private static final TransactionsReconciliator transactionsReconciliator = new TransactionsReconciliator();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,20 +35,20 @@ public class ResultServlet extends HttpServlet {
         writer.println(sourceFile);
         writer.println(targetFile);
 
-//        TransactionsParser sourceParser = TransactionsParserFactory.createParser(sourceType);
-//        TransactionsParser targetParser = TransactionsParserFactory.createParser(targetType);
-//
-//        List<Transaction> sourceParsed = sourceParser.parse(new FilePath(Paths.get("target", "tmp", sourceFile)));
-//        List<Transaction> targetParsed = targetParser.parse(new FilePath(Paths.get("target", "tmp", targetFile)));
-//
-//        List<Transaction> matched = transactionsReconciliator.findMatched(sourceParsed, targetParsed);
-//        List<SourcedTransaction> mismatched = transactionsReconciliator.findMismatched(sourceParsed, targetParsed);
-//        List<SourcedTransaction> missing = transactionsReconciliator.wrapMissing(sourceParsed, targetParsed);
-//
-//        session.setAttribute("matched", matched);
-//        session.setAttribute("mismatched", mismatched);
-//        session.setAttribute("missing", missing);
-//
-//        req.getRequestDispatcher("/WEB-INF/results.html").forward(req, resp);
+        TransactionsParser sourceParser = TransactionsParserFactory.createParser(sourceType);
+        TransactionsParser targetParser = TransactionsParserFactory.createParser(targetType);
+
+        List<Transaction> sourceParsed = sourceParser.parse(new FilePath(Paths.get("target", "tmp", sourceFile)));
+        List<Transaction> targetParsed = targetParser.parse(new FilePath(Paths.get("target", "tmp", targetFile)));
+
+        List<Transaction> matched = transactionsReconciliator.findMatched(sourceParsed, targetParsed);
+        List<SourcedTransaction> mismatched = transactionsReconciliator.findMismatched(sourceParsed, targetParsed);
+        List<SourcedTransaction> missing = transactionsReconciliator.wrapMissing(sourceParsed, targetParsed);
+
+        session.setAttribute("matched", matched);
+        session.setAttribute("mismatched", mismatched);
+        session.setAttribute("missing", missing);
+
+        req.getRequestDispatcher("/WEB-INF/results.html").forward(req, resp);
     }
 }

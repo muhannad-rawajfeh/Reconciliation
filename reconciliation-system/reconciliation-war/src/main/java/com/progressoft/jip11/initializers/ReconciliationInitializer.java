@@ -4,7 +4,6 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import com.progressoft.jip11.recdb.DatabaseHandler;
 import com.progressoft.jip11.recdb.DatabaseInitializer;
 import com.progressoft.jip11.recdb.UsersImporter;
-import com.progressoft.jip11.reconciliators.TransactionsReconciliator;
 import com.progressoft.jip11.servlets.*;
 
 import javax.servlet.MultipartConfigElement;
@@ -19,12 +18,11 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) {
         MysqlDataSource dataSource = prepareDataSource();
-
 //        initializeDatabase(servletContext, dataSource);
-
-        registerLoginServlet(servletContext, dataSource);
         MultipartConfigElement multipartConfigElement = new MultipartConfigElement("",
                 1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024);
+
+        registerLoginServlet(servletContext, dataSource);
         registerSourceUploadServlet(servletContext, multipartConfigElement);
         registerTargetUploadServlet(servletContext, multipartConfigElement);
         registerResultServlet(servletContext);
@@ -38,7 +36,7 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
     }
 
     private void registerResultServlet(ServletContext servletContext) {
-        ResultServlet resultServlet = new ResultServlet(new TransactionsReconciliator());
+        ResultServlet resultServlet = new ResultServlet();
         ServletRegistration.Dynamic resultServletRegistration = servletContext.addServlet("resultServlet", resultServlet);
         resultServletRegistration.addMapping("/results");
     }
@@ -73,7 +71,7 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
 
     private MysqlDataSource prepareDataSource() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/induction");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/reconciliation");
         dataSource.setUser("admin");
         dataSource.setPassword("password");
         return dataSource;
