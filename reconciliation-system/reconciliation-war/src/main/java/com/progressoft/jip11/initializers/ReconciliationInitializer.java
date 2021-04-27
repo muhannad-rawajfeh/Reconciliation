@@ -4,7 +4,9 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import com.progressoft.jip11.recdb.DatabaseHandler;
 import com.progressoft.jip11.recdb.DatabaseInitializer;
 import com.progressoft.jip11.recdb.UsersImporter;
+import com.progressoft.jip11.reconciliators.TransactionsReconciliator;
 import com.progressoft.jip11.servlets.LoginServlet;
+import com.progressoft.jip11.servlets.ResultServlet;
 import com.progressoft.jip11.servlets.SourceUploadServlet;
 import com.progressoft.jip11.servlets.TargetUploadServlet;
 
@@ -21,13 +23,20 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) {
         MysqlDataSource dataSource = prepareDataSource();
 
-        //initializeDatabase(servletContext, dataSource);
+//        initializeDatabase(servletContext, dataSource);
 
         registerLoginServlet(servletContext, dataSource);
         MultipartConfigElement multipartConfigElement = new MultipartConfigElement("",
                 1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024);
         registerSourceUploadServlet(servletContext, multipartConfigElement);
         registerTargetUploadServlet(servletContext, multipartConfigElement);
+        registerResultServlet(servletContext);
+    }
+
+    private void registerResultServlet(ServletContext servletContext) {
+        ResultServlet resultServlet = new ResultServlet(new TransactionsReconciliator());
+        ServletRegistration.Dynamic resultServletRegistration = servletContext.addServlet("resultServlet", resultServlet);
+        resultServletRegistration.addMapping("/results");
     }
 
     private void registerTargetUploadServlet(ServletContext servletContext, MultipartConfigElement multipartConfigElement) {

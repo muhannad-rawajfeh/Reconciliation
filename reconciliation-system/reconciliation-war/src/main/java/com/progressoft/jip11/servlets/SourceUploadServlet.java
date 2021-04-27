@@ -8,11 +8,14 @@ public class SourceUploadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Part part = req.getPart("source_file");
+        String fileName = part.getSubmittedFileName();
+        for (Part p : req.getParts())
+            p.write(fileName);
         HttpSession session = req.getSession();
         session.setAttribute("sourceName", req.getParameter("source_name"));
         session.setAttribute("sourceType", req.getParameter("source_type"));
-        session.setAttribute("sourceFile", req.getParameter("source_file"));
-        uploadFile(req);
+        session.setAttribute("sourceFile", fileName);
         req.getRequestDispatcher("/WEB-INF/target-upload.jsp").forward(req, resp);
     }
 
@@ -25,12 +28,5 @@ public class SourceUploadServlet extends HttpServlet {
             return;
         }
         req.getRequestDispatcher("/WEB-INF/target-upload.jsp").forward(req, resp);
-    }
-
-    private void uploadFile(HttpServletRequest req) throws IOException, ServletException {
-        Part part = req.getPart("source_file");
-        String fileName = part.getSubmittedFileName();
-        for (Part p : req.getParts())
-            p.write(fileName);
     }
 }
