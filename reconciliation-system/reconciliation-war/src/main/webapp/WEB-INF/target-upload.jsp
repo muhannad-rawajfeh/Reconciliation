@@ -40,5 +40,7 @@
     <button type="submit">Previous</button>
 </form>
 
+<%@include file="fragments/logout.jsp"%>
+
 </body>
 </html>

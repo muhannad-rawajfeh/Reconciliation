@@ -5,10 +5,7 @@ import com.progressoft.jip11.recdb.DatabaseHandler;
 import com.progressoft.jip11.recdb.DatabaseInitializer;
 import com.progressoft.jip11.recdb.UsersImporter;
 import com.progressoft.jip11.reconciliators.TransactionsReconciliator;
-import com.progressoft.jip11.servlets.LoginServlet;
-import com.progressoft.jip11.servlets.ResultServlet;
-import com.progressoft.jip11.servlets.SourceUploadServlet;
-import com.progressoft.jip11.servlets.TargetUploadServlet;
+import com.progressoft.jip11.servlets.*;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContainerInitializer;
@@ -31,6 +28,13 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
         registerSourceUploadServlet(servletContext, multipartConfigElement);
         registerTargetUploadServlet(servletContext, multipartConfigElement);
         registerResultServlet(servletContext);
+        registerLogoutServlet(servletContext);
+    }
+
+    private void registerLogoutServlet(ServletContext servletContext) {
+        LogoutServlet logoutServlet = new LogoutServlet();
+        ServletRegistration.Dynamic logoutServletRegistration = servletContext.addServlet("logoutServlet", logoutServlet);
+        logoutServletRegistration.addMapping("/logout");
     }
 
     private void registerResultServlet(ServletContext servletContext) {

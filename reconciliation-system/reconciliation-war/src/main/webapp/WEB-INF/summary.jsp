@@ -43,5 +43,7 @@
     <button type="submit">Cancel</button>
 </form>
 
+<%@include file="fragments/logout.jsp"%>
+
 </body>
 </html>

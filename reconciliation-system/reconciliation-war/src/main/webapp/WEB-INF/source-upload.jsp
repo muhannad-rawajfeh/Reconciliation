@@ -34,5 +34,7 @@
     <input type="submit" value="next">
 </form>
 
+<%@include file="fragments/logout.jsp"%>
+
 </body>
 </html>
