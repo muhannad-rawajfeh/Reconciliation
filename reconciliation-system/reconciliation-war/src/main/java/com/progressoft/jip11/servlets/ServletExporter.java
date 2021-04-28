@@ -25,9 +25,5 @@ public class ServletExporter implements TransactionsExporter {
         session.setAttribute("matched", matched);
         session.setAttribute("mismatched", mismatched);
         session.setAttribute("missing", missing);
-
-        session.setAttribute("matchedSize", matched.size());
-        session.setAttribute("mismatchedSize", mismatched.size());
-        session.setAttribute("missingSize", missing.size());
     }
 }

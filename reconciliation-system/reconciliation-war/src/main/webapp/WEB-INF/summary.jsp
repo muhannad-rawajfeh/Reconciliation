@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Summary</title>
     <link href="css/summary-style.css" rel="stylesheet">
 </head>
@@ -43,6 +42,7 @@
     <button type="submit">Cancel</button>
 </form>
 
+<br>
 <%@include file="fragments/logout.jsp"%>
 
 </body>

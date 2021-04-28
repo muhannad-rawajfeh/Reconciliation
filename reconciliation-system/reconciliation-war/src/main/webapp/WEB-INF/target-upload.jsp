@@ -1,9 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Target Upload</title>
 </head>
 <body>
@@ -40,6 +39,7 @@
     <button type="submit">Previous</button>
 </form>
 
+<br>
 <%@include file="fragments/logout.jsp"%>
 
 </body>

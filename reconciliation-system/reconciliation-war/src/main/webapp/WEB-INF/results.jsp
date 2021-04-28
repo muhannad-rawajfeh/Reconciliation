@@ -10,7 +10,7 @@
 <body>
 
 <h2>Reconciliation Results</h2>
-<p>Click on the buttons inside the tabbed menu:</p>
+<p>Click on the categories inside the tabbed menu:</p>
 
 <div class="tab">
   <button class="tablinks" onclick="openTab(event, 'matched')">Matched</button>
@@ -29,10 +29,10 @@
 
     <c:forEach items="${matched}" var="transaction">
         <tr>
-            <td>${transaction.getId()}</td>
-            <td>${transaction.getAmount()}</td>
-            <td>${transaction.getCurrency()}</td>
-            <td>${transaction.getDate()}</td>
+          <td>${transaction.getId()}</td>
+          <td>${transaction.getAmount()}</td>
+          <td>${transaction.getCurrency()}</td>
+          <td>${transaction.getDate()}</td>
         </tr>
     </c:forEach>
 
@@ -51,11 +51,11 @@
 
     <c:forEach items="${mismatched}" var="sTransaction">
         <tr>
-            <td>${sTransaction.getSource()}</td>
-            <td>${sTransaction.getTransaction().getId()}</td>
-            <td>${sTransaction.getTransaction().getAmount()}</td>
-            <td>${sTransaction.getTransaction().getCurrency()}</td>
-            <td>${sTransaction.getTransaction().getDate()}</td>
+          <td>${sTransaction.getSource()}</td>
+          <td>${sTransaction.getTransaction().getId()}</td>
+          <td>${sTransaction.getTransaction().getAmount()}</td>
+          <td>${sTransaction.getTransaction().getCurrency()}</td>
+          <td>${sTransaction.getTransaction().getDate()}</td>
         </tr>
     </c:forEach>
 
@@ -74,11 +74,11 @@
 
     <c:forEach items="${missing}" var="sTransaction">
         <tr>
-            <td>${sTransaction.getSource()}</td>
-            <td>${sTransaction.getTransaction().getId()}</td>
-            <td>${sTransaction.getTransaction().getAmount()}</td>
-            <td>${sTransaction.getTransaction().getCurrency()}</td>
-            <td>${sTransaction.getTransaction().getDate()}</td>
+          <td>${sTransaction.getSource()}</td>
+          <td>${sTransaction.getTransaction().getId()}</td>
+          <td>${sTransaction.getTransaction().getAmount()}</td>
+          <td>${sTransaction.getTransaction().getCurrency()}</td>
+          <td>${sTransaction.getTransaction().getDate()}</td>
         </tr>
     </c:forEach>
 
@@ -106,6 +106,7 @@
     <button type="submit">Compare new files</button>
 </form>
 
+<br>
 <%@include file="fragments/logout.jsp"%>
 
 </body>
