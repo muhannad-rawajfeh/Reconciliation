@@ -10,8 +10,8 @@ public class SourceUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Part part = req.getPart("source_file");
         String fileName = part.getSubmittedFileName();
-        for (Part p : req.getParts())
-            p.write(fileName);
+        part.write(fileName);
+
         HttpSession session = req.getSession();
         session.setAttribute("sourceName", req.getParameter("source_name"));
         session.setAttribute("sourceType", req.getParameter("source_type"));

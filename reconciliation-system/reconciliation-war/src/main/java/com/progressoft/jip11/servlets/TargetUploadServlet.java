@@ -10,8 +10,8 @@ public class TargetUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Part part = req.getPart("target_file");
         String fileName = part.getSubmittedFileName();
-        for (Part p : req.getParts())
-            p.write(fileName);
+        part.write(fileName);
+
         HttpSession session = req.getSession();
         session.setAttribute("targetName", req.getParameter("target_name"));
         session.setAttribute("targetType", req.getParameter("target_type"));
