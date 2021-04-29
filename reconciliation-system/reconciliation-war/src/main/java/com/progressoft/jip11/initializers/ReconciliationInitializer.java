@@ -18,7 +18,7 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> set, ServletContext servletContext) {
         MysqlDataSource dataSource = prepareDataSource();
-//        initializeDatabase(servletContext, dataSource);
+        initializeDatabase(servletContext, dataSource);
         MultipartConfigElement multipartConfigElement = new MultipartConfigElement("",
                 1024 * 1024 * 10, 1024 * 1024 * 100, 1024 * 1024);
 
