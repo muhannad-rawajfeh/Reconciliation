@@ -1,7 +1,7 @@
 package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.FilePath;
-import com.progressoft.jip11.reconciliators.CSVTransactionsWriter;
+import com.progressoft.jip11.reconciliators.TransactionsWriter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,21 +10,27 @@ import java.nio.file.Paths;
 
 public class FileTransactionsExporter implements TransactionsExporter {
 
+    private final TransactionsWriter transactionsWriter;
+
+    public FileTransactionsExporter(TransactionsWriter transactionsWriter) {
+        this.transactionsWriter = transactionsWriter;
+    }
+
     @Override
     public void exportTransactions(ExportRequest exportRequest) {
         validateRequest(exportRequest);
-        CSVTransactionsWriter csvTransactionsWriter = new CSVTransactionsWriter();
 
         Path dirPath = createDirectory();
         String dirPathAsString = dirPath.toString();
 
-        FilePath matchedPath = new FilePath(createFile(dirPathAsString, "matched.csv"));
-        FilePath mismatchedPath = new FilePath(createFile(dirPathAsString, "mismatched.csv"));
-        FilePath missingPath = new FilePath(createFile(dirPathAsString, "missing.csv"));
+        String extension = transactionsWriter.getExtension();
+        FilePath matchedPath = new FilePath(createFile(dirPathAsString, "matched" + extension));
+        FilePath mismatchedPath = new FilePath(createFile(dirPathAsString, "mismatched" + extension));
+        FilePath missingPath = new FilePath(createFile(dirPathAsString, "missing" + extension));
 
-        csvTransactionsWriter.writeMatched(matchedPath, exportRequest.getMatched());
-        csvTransactionsWriter.writeOther(mismatchedPath, exportRequest.getMismatched());
-        csvTransactionsWriter.writeOther(missingPath, exportRequest.getMissing());
+        transactionsWriter.writeMatched(matchedPath, exportRequest.getMatched());
+        transactionsWriter.writeOther(mismatchedPath, exportRequest.getMismatched());
+        transactionsWriter.writeOther(missingPath, exportRequest.getMissing());
     }
 
     private void validateRequest(ExportRequest exportRequest) {

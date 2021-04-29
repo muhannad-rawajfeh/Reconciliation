@@ -10,4 +10,6 @@ public interface TransactionsWriter {
     void writeMatched(FilePath filePath, List<Transaction> transactions);
 
     void writeOther(FilePath filePath, List<SourcedTransaction> sourcedTransactions);
+
+    String getExtension();
 }

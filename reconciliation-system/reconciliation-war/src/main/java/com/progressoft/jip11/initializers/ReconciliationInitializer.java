@@ -27,6 +27,13 @@ public class ReconciliationInitializer implements ServletContainerInitializer {
         registerTargetUploadServlet(servletContext, multipartConfigElement);
         registerResultServlet(servletContext);
         registerLogoutServlet(servletContext);
+        registerDownloadServlet(servletContext);
+    }
+
+    private void registerDownloadServlet(ServletContext servletContext) {
+        DownloadServlet downloadServlet = new DownloadServlet();
+        ServletRegistration.Dynamic downloadServletRegistration = servletContext.addServlet("downloadServlet", downloadServlet);
+        downloadServletRegistration.addMapping("/download");
     }
 
     private void registerLogoutServlet(ServletContext servletContext) {

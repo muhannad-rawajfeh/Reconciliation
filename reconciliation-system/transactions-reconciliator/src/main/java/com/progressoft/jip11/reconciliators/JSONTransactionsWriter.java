@@ -28,6 +28,11 @@ public class JSONTransactionsWriter implements TransactionsWriter {
         doWrite(filePath, jsonArray);
     }
 
+    @Override
+    public String getExtension() {
+        return ".json";
+    }
+
     private void doWrite(FilePath filePath, JSONArray jsonArray) {
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(filePath.getPath())) {
             bufferedWriter.write(jsonArray.toString(2));

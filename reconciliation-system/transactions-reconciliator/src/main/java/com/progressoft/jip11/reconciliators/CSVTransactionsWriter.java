@@ -23,6 +23,11 @@ public class CSVTransactionsWriter implements TransactionsWriter {
         doWrite(filePath, sourcedTransactions, OTHER_HEADER);
     }
 
+    @Override
+    public String getExtension() {
+        return ".csv";
+    }
+
     public void doWrite(FilePath filePath, List<?> objects, String header) {
         validatePathAndList(filePath, objects);
         try (BufferedWriter bufferedWriter = Files.newBufferedWriter(filePath.getPath())) {

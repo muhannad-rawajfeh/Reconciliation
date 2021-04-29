@@ -3,6 +3,7 @@ package com.progressoft.jip11.clients;
 import com.progressoft.jip11.apps.FileTransactionsExporter;
 import com.progressoft.jip11.apps.ReconciliationSystem;
 import com.progressoft.jip11.parsers.*;
+import com.progressoft.jip11.reconciliators.CSVTransactionsWriter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,8 @@ public class Client {
         TransactionsParser targetParser = createParserIfValid(scanner.next());
         if (targetParser == null) return;
 
-        ReconciliationSystem system = new ReconciliationSystem(sourceParser, targetParser, new FileTransactionsExporter());
+        ReconciliationSystem system = new ReconciliationSystem(sourceParser, targetParser,
+                new FileTransactionsExporter(new CSVTransactionsWriter()));
         try {
             system.reconcile(sourcePath, targetPath);
         } catch (Exception e) {

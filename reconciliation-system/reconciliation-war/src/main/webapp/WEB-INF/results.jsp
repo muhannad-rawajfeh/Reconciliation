@@ -27,7 +27,7 @@
       <th>Date</th>
     </tr>
 
-    <c:forEach items="${matched}" var="transaction">
+    <c:forEach items="${exportRequest.getMatched()}" var="transaction">
         <tr>
           <td>${transaction.getId()}</td>
           <td>${transaction.getAmount()}</td>
@@ -49,7 +49,7 @@
       <th>Date</th>
     </tr>
 
-    <c:forEach items="${mismatched}" var="sTransaction">
+    <c:forEach items="${exportRequest.getMismatched()}" var="sTransaction">
         <tr>
           <td>${sTransaction.getSource()}</td>
           <td>${sTransaction.getTransaction().getId()}</td>
@@ -72,7 +72,7 @@
       <th>Date</th>
     </tr>
 
-    <c:forEach items="${missing}" var="sTransaction">
+    <c:forEach items="${exportRequest.getMissing()}" var="sTransaction">
         <tr>
           <td>${sTransaction.getSource()}</td>
           <td>${sTransaction.getTransaction().getId()}</td>
@@ -84,6 +84,29 @@
 
   </table>
 </div>
+
+<br>
+<form method="post" action="/download">
+    <label for="results_type">Result files format:</label>
+    <br>
+    <select id="results_type" name="results_type">
+        <option value="CSV">CSV</option>
+        <option value="JSON">JSON</option>
+    </select>
+    <br>
+    <input type="submit" value="Download">
+</form>
+
+<br>
+<form method="get" action="/source-upload">
+    <button type="submit">Compare new files</button>
+</form>
+
+<br>
+<%@include file="fragments/logout.jsp"%>
+
+</body>
+</html>
 
 <script>
   function openTab(event, category) {
@@ -100,14 +123,3 @@
     event.currentTarget.className += " active";
   }
 </script>
-
-<br>
-<form method="get" action="/source-upload">
-    <button type="submit">Compare new files</button>
-</form>
-
-<br>
-<%@include file="fragments/logout.jsp"%>
-
-</body>
-</html>

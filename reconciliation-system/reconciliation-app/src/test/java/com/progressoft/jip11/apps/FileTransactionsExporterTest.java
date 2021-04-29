@@ -1,6 +1,7 @@
 package com.progressoft.jip11.apps;
 
 import com.progressoft.jip11.parsers.Transaction;
+import com.progressoft.jip11.reconciliators.CSVTransactionsWriter;
 import com.progressoft.jip11.reconciliators.SourcedTransaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class FileTransactionsExporterTest {
 
     @BeforeEach
     void setUp() {
-        fileTransactionsExporter = new FileTransactionsExporter();
+        fileTransactionsExporter = new FileTransactionsExporter(new CSVTransactionsWriter());
     }
 
     @Test
